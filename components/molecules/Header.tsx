@@ -5,33 +5,29 @@ const enriqueta = Enriqueta({ weight: "700" });
 
 export default function Header() {
 	return (
-		<header className="flex items-center px-[110px] py-5 bg-white w-full reletive">
-			<div
-				className="absolute left-1/20 top-5 w-10 h-10 bg-teal-300 bg-opacity-50 rounded-full z-10"
-				style={{ backgroundColor: "#3cb2b2bf" }}
-			></div>
-			<div
-				className="absolute left-1/15 top-4 w-15 h-15 rounded-full z-0"
-				style={{ backgroundColor: "#f2ad2ed4" }}
-			></div>
-			<div className="flex items-center">
-				<div className="relative flex flex-col">
-					{/* <div className="absolute left-1/100 top-0 w-20 h-20 bg-teal-300 bg-opacity-50 rounded-full z-10"></div>
-					<div className="absolute left-1/6 top-0 w-24 h-24 bg-yellow-300 rounded-full z-0"></div> */}
-					<div className="flex flex-col">
+		<header className="bg-white">
+			<div className="flex items-center w-full max-w-7xl mx-auto gap-6 px-20 py-4">
+				<div className="flex items-center">
+					<div className="flex flex-col relative">
+						<div
+							className="absolute -left-10 top-1 w-9 h-9 bg-teal-300 bg-opacity-50 rounded-full z-10 "
+							style={{ backgroundColor: "#3cb2b2bf" }}
+						></div>
+						<div
+							className="absolute -left-5 top-1 w-13 h-13 rounded-full z-0"
+							style={{ backgroundColor: "#f2ad2ed4" }}
+						></div>
 						<h1
-							className={`text-[38px] font-bold text-gray-600 ${enriqueta.className} relative z-20`}
+							className={`text-[24px] lg:text-[38px] font-bold text-gray-600 ${enriqueta.className} z-20 whitespace-nowrap`}
 						>
 							Maths Advantage
 						</h1>
-						<p className="text-sm text-gray-500 text-[18px] relative z-20">
+						<p className="text-[14px] text-gray-500 md:text-[18px] z-20 whitespace-nowrap">
 							Maths Tutoring Specialists
 						</p>
 					</div>
 				</div>
-			</div>
-			<div className="flex-grow flex justify-center">
-				<nav className="flex gap-20">
+				<nav className="flex justify-between gap-4 md:gap-10 w-full max-w-[50%] lg:mx-auto">
 					<LinkButton
 						text="HOME"
 						href="/"
@@ -55,7 +51,7 @@ export default function Header() {
 					<LinkButton
 						text="Free Stuff"
 						href="/free-stuff"
-						className="text-teal-500 text-[14px] font-bold"
+						className="text-teal-500 text-[14px] font-bold whitespace-nowrap"
 					/>
 				</nav>
 			</div>
