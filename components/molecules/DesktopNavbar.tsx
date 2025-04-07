@@ -32,7 +32,7 @@ export default function DesktopNavbar({ className }: DesktopNavbarProps) {
 					</p>
 				</div>
 			</div>
-			<nav className="flex justify-between gap-4 md:gap-10 w-full lg:max-w-[50%] md:ml-6 lg:mx-auto text-teal-500 md:text-[14px] lg:text-[14px] font-bold">
+			<nav className="flex justify-between gap-4 md:gap-10 w-full lg:max-w-[50%] md:ml-6 lg:mx-auto text-teal-500 md:text-[14px] lg:text-[14px] font-bold z-10">
 				<LinkButton text="HOME" href="/" />
 				<LinkButton text="ABOUT" href="/about" />
 				<LinkButton text="CONTACT" href="/contact" />

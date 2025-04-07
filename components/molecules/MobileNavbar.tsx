@@ -16,6 +16,10 @@ export default function MobileNavbar({ className }: MobileNavbarProps) {
 		setIsOpen(!isOpen);
 	};
 
+	const closeMenu = () => {
+		setIsOpen(false);
+	};
+
 	return (
 		<div
 			className={`flex items-center w-full max-w-7xl mx-auto gap-6 px-10 py-4 ${className} justify-between`}
@@ -56,26 +60,35 @@ export default function MobileNavbar({ className }: MobileNavbarProps) {
 				}`}
 			>
 				<ul className="flex flex-col items-center p-2">
-					<LinkButton text="HOME" href="/" className="p-2 text-center w-full" />
+					<LinkButton
+						text="HOME"
+						href="/"
+						className="p-2 text-center w-full text-teal-500"
+						onClick={closeMenu}
+					/>
 					<LinkButton
 						text="ABOUT"
 						href="/about"
-						className="p-2 text-center w-full"
+						className="p-2 text-center w-full text-teal-500"
+						onClick={closeMenu}
 					/>
 					<LinkButton
 						text="CONTACT"
 						href="/contact"
-						className="p-2 text-center w-full"
+						className="p-2 text-center w-full text-teal-500"
+						onClick={closeMenu}
 					/>
 					<LinkButton
 						text="SERVICES"
 						href="/services"
-						className="p-2 text-center w-full"
+						className="p-2 text-center w-full text-teal-500"
+						onClick={closeMenu}
 					/>
 					<LinkButton
 						text="FAQ"
 						href="/faq"
-						className="p-2 text-center w-full"
+						className="p-2 text-center w-full text-teal-500"
+						onClick={closeMenu}
 					/>
 				</ul>
 			</div>
