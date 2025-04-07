@@ -73,8 +73,8 @@ export default function MobileNavbar({ className }: MobileNavbarProps) {
 						className="p-2 text-center w-full"
 					/>
 					<LinkButton
-						text="Free Stuff"
-						href="/free-stuff"
+						text="FAQ"
+						href="/faq"
 						className="p-2 text-center w-full"
 					/>
 				</ul>

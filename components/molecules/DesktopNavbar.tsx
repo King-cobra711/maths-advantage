@@ -37,11 +37,7 @@ export default function DesktopNavbar({ className }: DesktopNavbarProps) {
 				<LinkButton text="ABOUT" href="/about" />
 				<LinkButton text="CONTACT" href="/contact" />
 				<LinkButton text="SERVICES" href="/services" />
-				<LinkButton
-					text="Free Stuff"
-					href="/free-stuff"
-					className="whitespace-nowrap"
-				/>
+				<LinkButton text="FAQ" href="/faq" className="whitespace-nowrap" />
 			</nav>
 		</div>
 	);
