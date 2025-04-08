@@ -59,12 +59,6 @@ const dummyItems = [
 	},
 ];
 
-// Usage
 export default function App() {
-	return (
-		<div className="p-4">
-			<h1 className="text-2xl mb-4 text-teal-600">FAQ's</h1>
-			<Accordion items={dummyItems} />
-		</div>
-	);
+	return <Accordion items={dummyItems} />;
 }
