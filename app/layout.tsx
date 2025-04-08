@@ -23,7 +23,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className="flex flex-col min-h-screen">
 				<Header />
-				<main className="flex-grow max-w-7xl mx-auto px-3">{children}</main>
+				<main className="flex-grow max-w-7xl px-3 lg:mx-auto">{children}</main>
 				<Footer />
 			</body>
 		</html>

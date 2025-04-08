@@ -13,9 +13,7 @@ interface ImageGridProps {
 
 export default function ImageGrid({ services, className }: ImageGridProps) {
 	return (
-		<div
-			className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${className}`}
-		>
+		<div className={`grid grid-cols-1 lg:grid-cols-3 gap-6 ${className}`}>
 			{services.map((service, index) => (
 				<div key={index} className="flex flex-col items-center">
 					<ImageCard
@@ -26,7 +24,7 @@ export default function ImageGrid({ services, className }: ImageGridProps) {
 						description2={service.description2}
 					/>
 					{index < services.length - 1 && (
-						<Divider className="block md:hidden" />
+						<Divider className="block lg:hidden" />
 					)}
 				</div>
 			))}
