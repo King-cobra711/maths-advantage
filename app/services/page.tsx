@@ -29,7 +29,7 @@ export default function Services() {
 	];
 	return (
 		<div>
-			<h1 className="text-4xl py-6">SERVICES</h1>
+			<h1 className="text-4xl py-6 text-teal-600">SERVICES</h1>
 			<p className="p-1 text-md py-2">
 				Maths Advantage aims to provide quality tutoring and exam preparation
 				for high school mathematics students.
