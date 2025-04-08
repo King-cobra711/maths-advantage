@@ -10,7 +10,7 @@ export const AccordionItemThree = () => {
 					alt="BODMAS 1"
 					width={400}
 					height={400}
-					className="rounded-md"
+					className="rounded-md py-6"
 				/>
 			</div>
 			<p className="mb-4">
@@ -35,7 +35,7 @@ export const AccordionItemThree = () => {
 					alt="Order of Operations Example"
 					width={400}
 					height={400}
-					className="rounded-md"
+					className="rounded-md py-6"
 				/>
 			</div>
 			<p className="mt-4">
@@ -64,7 +64,7 @@ export const AccordionItemThree = () => {
 					alt="Order of Operations Example"
 					width={400}
 					height={400}
-					className="rounded-md"
+					className="rounded-md py-6"
 				/>
 			</div>
 			<p className="mt-4">

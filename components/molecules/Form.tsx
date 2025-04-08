@@ -41,12 +41,12 @@ export default function Contact() {
 			<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
-						Name *
+						Name <span className="text-red-500">*</span>
 					</label>
 					<input
 						type="text"
 						{...register("name", { required: true })}
-						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-teal-800 text-white"
+						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white text-black"
 					/>
 					{errors.name && (
 						<span className="text-red-500">This field is required</span>
@@ -54,12 +54,12 @@ export default function Contact() {
 				</div>
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
-						Email *
+						Email <span className="text-red-500">*</span>
 					</label>
 					<input
 						type="email"
 						{...register("email", { required: true })}
-						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-teal-800 text-white"
+						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white text-black"
 					/>
 					{errors.email && (
 						<span className="text-red-500">This field is required</span>
@@ -67,12 +67,12 @@ export default function Contact() {
 				</div>
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
-						Phone *
+						Phone <span className="text-red-500">*</span>
 					</label>
 					<input
 						type="tel"
 						{...register("phone", { required: true })}
-						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-teal-800 text-white"
+						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white text-black"
 					/>
 					{errors.phone && (
 						<span className="text-red-500">This field is required</span>
@@ -85,7 +85,7 @@ export default function Contact() {
 					<input
 						type="text"
 						{...register("subject")}
-						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-teal-800 text-white"
+						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white text-black"
 					/>
 				</div>
 				<div>
@@ -94,7 +94,7 @@ export default function Contact() {
 					</label>
 					<textarea
 						{...register("message", { required: true })}
-						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-teal-800 text-white h-32"
+						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white text-black h-32"
 					></textarea>
 					{errors.message && (
 						<span className="text-red-500">This field is required</span>

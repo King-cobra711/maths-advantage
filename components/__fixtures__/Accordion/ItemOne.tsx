@@ -16,7 +16,7 @@ export const AccordionItemOne = () => {
 					alt="Order of Operations Most people get this wrong"
 					width={400}
 					height={400}
-					className="rounded-md"
+					className="rounded-md py-6"
 				/>
 			</div>
 			<h3 className="mt-4 mb-2 font-bold">What should we do first?</h3>
@@ -32,7 +32,7 @@ export const AccordionItemOne = () => {
 					alt="Order of Operations BODMAS"
 					width={400}
 					height={400}
-					className="rounded-md"
+					className="rounded-md py-6"
 				/>
 			</div>
 			<h3 className="mt-4 mb-2 font-bold">
@@ -44,7 +44,7 @@ export const AccordionItemOne = () => {
 					alt="Order of Operations Example"
 					width={400}
 					height={400}
-					className="rounded-md"
+					className="rounded-md py-6"
 				/>
 			</div>
 			<p className="mt-4">

@@ -12,7 +12,7 @@ export const AccordionItemTwo = () => {
 					alt="Order of Operations Most people get this wrong"
 					width={400}
 					height={400}
-					className="rounded-md"
+					className="rounded-md py-6"
 				/>
 			</div>
 			<p className="mb-4">
@@ -52,7 +52,7 @@ export const AccordionItemTwo = () => {
 					alt="Percentage Example"
 					width={400}
 					height={400}
-					className="rounded-md"
+					className="rounded-md py-6"
 				/>
 				<p>
 					The word <span className="font-bold">of</span> in mathematics means
@@ -65,7 +65,7 @@ export const AccordionItemTwo = () => {
 					alt="Percentage Example"
 					width={400}
 					height={400}
-					className="rounded-md"
+					className="rounded-md py-6"
 				/>
 				<p>
 					The <span className="font-bold">%</span> sign means{" "}

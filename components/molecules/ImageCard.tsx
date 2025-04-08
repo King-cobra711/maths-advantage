@@ -25,7 +25,9 @@ export default function ImageCard({
 					style={{ boxShadow: "var(--shd, 0 1px 3px rgba(0, 0, 0, .5))" }}
 				/>
 			</div>
-			<h3 className="text-xl py-5 text-center underline">{title}</h3>
+			<h3 className="text-xl py-5 text-center text-teal-600 font-bold">
+				{title}
+			</h3>
 			<p className="text-sm pb-4 text-center">{description1}</p>
 			<p className="text-sm text-center pb-4">{description2}</p>
 		</div>
