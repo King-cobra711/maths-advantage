@@ -1,4 +1,3 @@
-import Button from "@/components/atoms/Button";
 import LinkButton from "@/components/atoms/LinkButton";
 import NoticeBoard from "@/components/atoms/NoticeBoard";
 import { Facebook } from "@/components/icons/Facebook";
@@ -22,8 +21,9 @@ export default function Home() {
 						href="/services"
 						className="w-full px-18 bg-teal-600 text-white text-center py-2 mx-auto rounded-md cursor-pointer"
 					/>
-					<Button
+					<LinkButton
 						text="FACEBOOK"
+						href="https://www.facebook.com/MathsAdvantage/"
 						className="w-full px-16 mb-8"
 						icon={<Facebook />}
 					/>
