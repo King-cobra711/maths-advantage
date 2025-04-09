@@ -1,34 +1,48 @@
+@import "tailwindcss";
+
+/* Keep custom styles that can't be achieved with Tailwind utilities */
 .navigation-wrapper {
 	position: relative;
 	width: 100%;
+	max-width: 100%;
 	overflow: hidden;
+	-webkit-transform: translateZ(0); /* Force GPU acceleration */
 }
 
 .keen-slider {
-	width: 100%;
-	aspect-ratio: 16/9; /* This replaces the fixed height */
-	overflow: hidden;
+	@apply w-full overflow-hidden;
+	max-width: 100%;
+	aspect-ratio: 16/9; /* Keep this as custom CSS since Tailwind doesn't have a direct utility for aspect-ratio */
+	height: auto; /* Ensure height is calculated correctly */
+	-webkit-backface-visibility: hidden; /* Fix Safari rendering */
+}
+
+.keen-slider__slide {
+	width: 100%; /* Add explicit width */
+	height: 100%; /* Add explicit height */
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.keen-slider__slide img {
+	-webkit-user-drag: none;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
 }
 
 .dots {
-	display: flex;
-	padding: 10px 0;
-	justify-content: center;
+	@apply flex justify-center py-2.5;
 }
 
 .dot {
-	border: none;
-	width: 10px;
-	height: 10px;
+	@apply w-2.5 h-2.5 rounded-full mx-1.5 p-1.5 cursor-pointer border-0;
 	background: #3cb2b2bf;
-	border-radius: 50%;
-	margin: 0 5px;
-	padding: 5px;
-	cursor: pointer;
 }
 
 .dot:focus {
-	outline: none;
+	@apply outline-none;
 }
 
 .dot.active {
@@ -36,25 +50,17 @@
 }
 
 .arrow {
-	width: 30px;
-	height: 30px;
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	-webkit-transform: translateY(-50%);
-	fill: #fff;
-	cursor: pointer;
+	@apply w-[30px] h-[30px] absolute top-1/2 -translate-y-1/2 cursor-pointer fill-white;
 }
 
 .arrow--left {
-	left: 5px;
+	@apply left-[5px];
 }
 
 .arrow--right {
-	left: auto;
-	right: 5px;
+	@apply right-[5px] left-auto;
 }
 
 .arrow--disabled {
-	fill: rgba(255, 255, 255, 0.5);
+	@apply fill-white/50;
 }
