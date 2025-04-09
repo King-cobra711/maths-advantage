@@ -39,12 +39,12 @@ const Slider = () => {
 	}, [instanceRef]);
 
 	return (
-		<div className="w-[600px] py-6">
+		<div className="w-full lg:w-[600px] mx-auto px-4 lg:px-0">
 			<div className="navigation-wrapper">
 				<div ref={sliderRef} className="keen-slider">
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-1.avif"
@@ -57,7 +57,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-2.avif"
@@ -69,7 +69,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-1.avif"
@@ -82,7 +82,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-3.avif"
@@ -94,7 +94,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-1.avif"
@@ -107,7 +107,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-4.avif"
@@ -119,7 +119,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-1.avif"
@@ -132,7 +132,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-5.avif"
@@ -144,7 +144,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-1.avif"
@@ -157,7 +157,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-6.avif"
@@ -169,7 +169,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-1.avif"
@@ -182,7 +182,7 @@ const Slider = () => {
 					</div>
 					<div className="keen-slider__slide">
 						<div
-							style={{ position: "relative", width: "100%", height: "420px" }}
+							style={{ position: "relative", width: "100%", height: "100%" }}
 						>
 							<Image
 								src="/images/home-slider-7.avif"
