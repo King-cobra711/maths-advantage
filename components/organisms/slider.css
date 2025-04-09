@@ -1,0 +1,60 @@
+.navigation-wrapper {
+	width: 100%;
+	max-width: 100vw;
+	position: relative;
+}
+
+.keen-slider {
+	width: 100%;
+	height: 100%; /* Adjust height as needed for slider*/
+	overflow: hidden;
+}
+
+.dots {
+	display: flex;
+	padding: 10px 0;
+	justify-content: center;
+}
+
+.dot {
+	border: none;
+	width: 10px;
+	height: 10px;
+	background: #3cb2b2bf;
+	border-radius: 50%;
+	margin: 0 5px;
+	padding: 5px;
+	cursor: pointer;
+}
+
+.dot:focus {
+	outline: none;
+}
+
+.dot.active {
+	background: #f2ad2ed4;
+}
+
+.arrow {
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	fill: #fff;
+	cursor: pointer;
+}
+
+.arrow--left {
+	left: 5px;
+}
+
+.arrow--right {
+	left: auto;
+	right: 5px;
+}
+
+.arrow--disabled {
+	fill: rgba(255, 255, 255, 0.5);
+}

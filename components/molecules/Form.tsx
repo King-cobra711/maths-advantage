@@ -90,7 +90,7 @@ export default function Contact() {
 				</div>
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
-						Message
+						Message<span className="text-red-500">*</span>
 					</label>
 					<textarea
 						{...register("message", { required: true })}
@@ -101,13 +101,18 @@ export default function Contact() {
 					)}
 				</div>
 				<div className="flex justify-end">
-					<button
-						type="submit"
-						className="mt-4 text-white py-2 px-6 rounded-md"
+					<div
+						role="button"
+						tabIndex={0}
+						className="mt-4 text-white py-2 px-6 rounded-md cursor-pointer"
 						style={{ backgroundColor: "#f2ad2e" }}
+						onClick={handleSubmit(onSubmit)}
+						onKeyPress={(e) => {
+							if (e.key === "Enter") handleSubmit(onSubmit)();
+						}}
 					>
 						Send
-					</button>
+					</div>
 				</div>
 			</form>
 		</div>
