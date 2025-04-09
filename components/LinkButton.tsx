@@ -9,6 +9,7 @@ interface LinkButtonProps extends ButtonProps {
 	onClick?: () => void;
 	target?: string;
 	rel?: string;
+	isNavLink?: boolean;
 }
 
 export default function LinkButton({
@@ -19,6 +20,7 @@ export default function LinkButton({
 	icon,
 	target,
 	rel,
+	isNavLink = false,
 }: LinkButtonProps) {
 	const pathname = usePathname();
 	const isActive = pathname === href;
@@ -39,9 +41,11 @@ export default function LinkButton({
 			>
 				{icon && icon}
 				<span>{text}</span>
-				{isActive && (
-					<div className="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-500" />
-				)}
+				<div
+					className={`absolute -bottom-1 left-0 w-full h-0.5 bg-teal-500 transition-transform duration-300 origin-left ${
+						isActive ? "scale-x-100" : "scale-x-0"
+					}`}
+				/>
 			</a>
 		);
 	}
@@ -50,9 +54,11 @@ export default function LinkButton({
 		<Link href={href} className={baseClasses} onClick={onClick}>
 			{icon && icon}
 			<span>{text}</span>
-			{isActive && (
+			{isNavLink && (
 				<div
-					className="absolute -bottom-1 left-0 w-full h-0.5"
+					className={`absolute -bottom-1 left-0 w-full h-0.5 transition-transform duration-300 origin-left ${
+						isActive ? "scale-x-100" : "scale-x-0"
+					}`}
 					style={{ backgroundColor: "#f2ad2ed4" }}
 				/>
 			)}

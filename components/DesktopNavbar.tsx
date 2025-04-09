@@ -33,11 +33,16 @@ export default function DesktopNavbar({ className }: DesktopNavbarProps) {
 				</div>
 			</div>
 			<nav className="flex justify-between gap-4 md:gap-10 w-full lg:max-w-[50%] md:ml-6 lg:mx-auto text-teal-500 md:text-[14px] lg:text-[14px] font-bold z-10">
-				<LinkButton text="HOME" href="/" />
-				<LinkButton text="ABOUT" href="/about" />
-				<LinkButton text="CONTACT" href="/contact" />
-				<LinkButton text="SERVICES" href="/services" />
-				<LinkButton text="FAQ" href="/faq" className="whitespace-nowrap" />
+				<LinkButton text="HOME" href="/" isNavLink />
+				<LinkButton text="ABOUT" href="/about" isNavLink />
+				<LinkButton text="CONTACT" href="/contact" isNavLink />
+				<LinkButton text="SERVICES" href="/services" isNavLink />
+				<LinkButton
+					text="FAQ"
+					href="/faq"
+					className="whitespace-nowrap"
+					isNavLink
+				/>
 			</nav>
 		</div>
 	);
