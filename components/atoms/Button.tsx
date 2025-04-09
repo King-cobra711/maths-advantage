@@ -4,5 +4,5 @@ export interface ButtonProps {
 }
 
 export default function Button({ text, className }: ButtonProps) {
-	return <button className={className}>{text}</button>;
+	return <div className={className}>{text}</div>;
 }

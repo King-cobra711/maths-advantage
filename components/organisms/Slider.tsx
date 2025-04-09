@@ -1,14 +1,30 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./slider.css";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import Image from "next/image";
 
 const Slider = () => {
-	const [currentSlide, setCurrentSlide] = React.useState(0);
+	const [currentSlide, setCurrentSlide] = useState(0);
 	const [loaded, setLoaded] = useState(false);
+
+	const slides = [
+		{ src: "/images/home-slider-1.avif", alt: "Slide 1", priority: true },
+		{ src: "/images/home-slider-2.avif", alt: "Slide 2" },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 3", priority: true },
+		{ src: "/images/home-slider-3.avif", alt: "Slide 4" },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 5", priority: true },
+		{ src: "/images/home-slider-4.avif", alt: "Slide 6" },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 7", priority: true },
+		{ src: "/images/home-slider-5.avif", alt: "Slide 8" },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 9", priority: true },
+		{ src: "/images/home-slider-6.avif", alt: "Slide 10" },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 11", priority: true },
+		{ src: "/images/home-slider-7.avif", alt: "Slide 12" },
+	];
+
 	const [sliderRef, instanceRef] = useKeenSlider({
 		slides: {
 			perView: 1,
@@ -42,156 +58,21 @@ const Slider = () => {
 		<div className="w-full lg:w-[600px] mx-auto px-4 lg:px-0">
 			<div className="navigation-wrapper">
 				<div ref={sliderRef} className="keen-slider">
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-1.avif"
-								alt="Slide 1"
-								fill
-								style={{ objectFit: "cover" }}
-								priority // Add priority to the first image
-							/>
+					{slides.map((slide, index) => (
+						<div className="keen-slider__slide" key={index}>
+							<div
+								style={{ position: "relative", width: "100%", height: "100%" }}
+							>
+								<Image
+									src={slide.src}
+									alt={slide.alt}
+									fill
+									style={{ objectFit: "cover" }}
+									priority={slide.priority}
+								/>
+							</div>
 						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-2.avif"
-								alt="Slide 2"
-								fill
-								style={{ objectFit: "cover" }}
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-1.avif"
-								alt="Slide 3"
-								fill
-								style={{ objectFit: "cover" }}
-								priority // Add priority to the first image
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-3.avif"
-								alt="Slide 4"
-								fill
-								style={{ objectFit: "cover" }}
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-1.avif"
-								alt="Slide 5"
-								fill
-								style={{ objectFit: "cover" }}
-								priority // Add priority to the first image
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-4.avif"
-								alt="Slide 6"
-								fill
-								style={{ objectFit: "cover" }}
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-1.avif"
-								alt="Slide 7"
-								fill
-								style={{ objectFit: "cover" }}
-								priority // Add priority to the first image
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-5.avif"
-								alt="Slide 8"
-								fill
-								style={{ objectFit: "cover" }}
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-1.avif"
-								alt="Slide 9"
-								fill
-								style={{ objectFit: "cover" }}
-								priority // Add priority to the first image
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-6.avif"
-								alt="Slide 10"
-								fill
-								style={{ objectFit: "cover" }}
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-1.avif"
-								alt="Slide 11"
-								fill
-								style={{ objectFit: "cover" }}
-								priority // Add priority to the first image
-							/>
-						</div>
-					</div>
-					<div className="keen-slider__slide">
-						<div
-							style={{ position: "relative", width: "100%", height: "100%" }}
-						>
-							<Image
-								src="/images/home-slider-7.avif"
-								alt="Slide 12"
-								fill
-								style={{ objectFit: "cover" }}
-							/>
-						</div>
-					</div>
+					))}
 				</div>
 				{loaded && instanceRef.current && (
 					<>
