@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./slider.css";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
@@ -9,6 +9,7 @@ import Image from "next/image";
 const Slider = () => {
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [loaded, setLoaded] = useState(false);
+	const containerRef = useRef<HTMLDivElement>(null);
 
 	const slides = [
 		{ src: "/images/home-slider-1.avif", alt: "Slide 1", priority: true },
@@ -25,29 +26,49 @@ const Slider = () => {
 		{ src: "/images/home-slider-7.avif", alt: "Slide 12" },
 	];
 
-	const [sliderRef, instanceRef] = useKeenSlider({
+	const sliderOptions = {
 		slides: {
 			perView: 1,
 			spacing: 0,
 		},
 		loop: true,
 		defaultAnimation: {
-			duration: 2000, // Animation duration when sliding
+			duration: 2000,
 		},
-		slideChanged(slider) {
-			setCurrentSlide(slider.track.details.rel);
+		slideChanged(s: any) {
+			setCurrentSlide(s.track.details.rel);
 		},
 		created() {
 			setLoaded(true);
 		},
-	});
+	};
+
+	const [sliderRef, instanceRef] = useKeenSlider(sliderOptions);
+
+	useEffect(() => {
+		if (containerRef.current) {
+			const resizeObserver = new ResizeObserver(() => {
+				if (instanceRef.current) {
+					instanceRef.current.update();
+				}
+			});
+
+			resizeObserver.observe(containerRef.current);
+
+			return () => {
+				if (containerRef.current) {
+					resizeObserver.unobserve(containerRef.current);
+				}
+			};
+		}
+	}, [instanceRef]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (instanceRef.current) {
 				instanceRef.current.next();
 			}
-		}, 4000); // Time between slide changes (4 seconds)
+		}, 4000);
 
 		return () => {
 			clearInterval(interval);
@@ -55,7 +76,10 @@ const Slider = () => {
 	}, [instanceRef]);
 
 	return (
-		<div className="w-full lg:w-[600px] mx-auto px-4 lg:px-0">
+		<div
+			ref={containerRef}
+			className="w-full lg:w-[600px] mx-auto px-4 lg:px-0"
+		>
 			<div className="navigation-wrapper">
 				<div ref={sliderRef} className="keen-slider">
 					{slides.map((slide, index) => (
