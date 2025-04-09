@@ -13,15 +13,15 @@ const Slider = () => {
 	const slides = [
 		{ src: "/images/home-slider-1.avif", alt: "Slide 1", priority: true },
 		{ src: "/images/home-slider-2.avif", alt: "Slide 2" },
-		{ src: "/images/home-slider-1.avif", alt: "Slide 3", priority: true },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 3" },
 		{ src: "/images/home-slider-3.avif", alt: "Slide 4" },
-		{ src: "/images/home-slider-1.avif", alt: "Slide 5", priority: true },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 5" },
 		{ src: "/images/home-slider-4.avif", alt: "Slide 6" },
-		{ src: "/images/home-slider-1.avif", alt: "Slide 7", priority: true },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 7" },
 		{ src: "/images/home-slider-5.avif", alt: "Slide 8" },
-		{ src: "/images/home-slider-1.avif", alt: "Slide 9", priority: true },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 9" },
 		{ src: "/images/home-slider-6.avif", alt: "Slide 10" },
-		{ src: "/images/home-slider-1.avif", alt: "Slide 11", priority: true },
+		{ src: "/images/home-slider-1.avif", alt: "Slide 11" },
 		{ src: "/images/home-slider-7.avif", alt: "Slide 12" },
 	];
 
