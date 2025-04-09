@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ButtonProps } from "./Button";
+import { usePathname } from "next/navigation";
 
 interface LinkButtonProps extends ButtonProps {
 	href: string;
@@ -17,9 +20,12 @@ export default function LinkButton({
 	target,
 	rel,
 }: LinkButtonProps) {
+	const pathname = usePathname();
+	const isActive = pathname === href;
+
 	const isExternalLink = href.startsWith("http") || href.startsWith("https");
 
-	const baseClasses = `cursor-pointer 
+	const baseClasses = `relative cursor-pointer 
 		flex items-center justify-center gap-2 ${className || ""}`;
 
 	if (isExternalLink) {
@@ -33,6 +39,9 @@ export default function LinkButton({
 			>
 				{icon && icon}
 				<span>{text}</span>
+				{isActive && (
+					<div className="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-500" />
+				)}
 			</a>
 		);
 	}
@@ -41,6 +50,12 @@ export default function LinkButton({
 		<Link href={href} className={baseClasses} onClick={onClick}>
 			{icon && icon}
 			<span>{text}</span>
+			{isActive && (
+				<div
+					className="absolute -bottom-1 left-0 w-full h-0.5"
+					style={{ backgroundColor: "#f2ad2ed4" }}
+				/>
+			)}
 		</Link>
 	);
 }
