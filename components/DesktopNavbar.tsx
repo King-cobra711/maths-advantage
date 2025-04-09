@@ -1,5 +1,5 @@
 import { Enriqueta } from "next/font/google";
-import LinkButton from "@/components/atoms/LinkButton";
+import LinkButton from "@/components/LinkButton";
 
 const enriqueta = Enriqueta({ weight: "700" });
 

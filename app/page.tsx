@@ -1,7 +1,7 @@
-import LinkButton from "@/components/atoms/LinkButton";
-import NoticeBoard from "@/components/atoms/NoticeBoard";
+import LinkButton from "@/components/LinkButton";
+import NoticeBoard from "@/components/NoticeBoard";
 import { Facebook } from "@/components/icons/Facebook";
-import Slider from "@/components/organisms/Slider";
+import Slider from "@/components/Slider";
 
 export default function Home() {
 	return (

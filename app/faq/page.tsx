@@ -1,5 +1,5 @@
 "use client";
-import Accordion from "@/components/organisms/Accordion";
+import Accordion from "@/components/Accordion";
 
 export default function FAQ() {
 	return (

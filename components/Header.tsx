@@ -1,5 +1,5 @@
-import DesktopNavbar from "@/components/molecules/DesktopNavbar";
-import MobileNavbar from "@/components/molecules/MobileNavbar";
+import DesktopNavbar from "@/components/DesktopNavbar";
+import MobileNavbar from "@/components/MobileNavbar";
 
 export default function Header() {
 	return (

@@ -1,4 +1,4 @@
-import ImageGrid from "@/components/organisms/ImageGrid";
+import ImageGrid from "@/components/ImageGrid";
 
 export default function Services() {
 	const services = [

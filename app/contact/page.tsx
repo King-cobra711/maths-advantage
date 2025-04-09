@@ -1,5 +1,5 @@
 "use client";
-import Form from "@/components/molecules/Form";
+import Form from "@/components/Form";
 
 export default function Contact() {
 	return (

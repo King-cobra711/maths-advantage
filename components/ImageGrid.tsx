@@ -1,5 +1,5 @@
-import ImageCard from "@/components/molecules/ImageCard";
-import Divider from "@/components/atoms/Divider";
+import ImageCard from "@/components/ImageCard";
+import Divider from "@/components/Divider";
 
 interface ImageGridProps {
 	services: {

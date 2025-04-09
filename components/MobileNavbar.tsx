@@ -1,6 +1,6 @@
 "use client";
 import { Enriqueta } from "next/font/google";
-import LinkButton from "@/components/atoms/LinkButton";
+import LinkButton from "@/components/LinkButton";
 import { useState } from "react";
 
 const enriqueta = Enriqueta({ weight: "700" });

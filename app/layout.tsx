@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/organisms/Header";
-import Footer from "@/components/molecules/Footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const openSans = Open_Sans({
 	weight: ["400", "700"],
