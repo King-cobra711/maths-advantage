@@ -19,14 +19,14 @@ export default function LinkButton({
 }: LinkButtonProps) {
 	const isExternalLink = href.startsWith("http") || href.startsWith("https");
 
-	const buttonClasses = `bg-teal-600 text-white py-2 px-6 mx-auto rounded-md cursor-pointer 
+	const baseClasses = `cursor-pointer 
 		flex items-center justify-center gap-2 ${className || ""}`;
 
 	if (isExternalLink) {
 		return (
 			<a
 				href={href}
-				className={buttonClasses}
+				className={baseClasses}
 				onClick={onClick}
 				target={target || "_blank"}
 				rel={rel || "noopener noreferrer"}
@@ -38,7 +38,7 @@ export default function LinkButton({
 	}
 
 	return (
-		<Link href={href} className={buttonClasses} onClick={onClick}>
+		<Link href={href} className={baseClasses} onClick={onClick}>
 			{icon && icon}
 			<span>{text}</span>
 		</Link>

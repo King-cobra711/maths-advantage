@@ -24,7 +24,7 @@ export default function Home() {
 					<LinkButton
 						text="FACEBOOK"
 						href="https://www.facebook.com/MathsAdvantage/"
-						className="w-full px-16 mb-8"
+						className="w-full px-16 mb-8 bg-teal-600 text-white text-center py-2 mx-auto rounded-md cursor-pointer"
 						icon={<Facebook />}
 					/>
 				</div>
