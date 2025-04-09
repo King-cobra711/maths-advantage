@@ -8,7 +8,7 @@ interface FormData {
 	message?: string;
 }
 
-export default function Contact() {
+export default function ContactForm({ className }: { className?: string }) {
 	const {
 		register,
 		handleSubmit,
@@ -37,7 +37,9 @@ export default function Contact() {
 	};
 
 	return (
-		<div className="w-full border border-gray-300 rounded-lg p-4 lg:w-[800px] bg-gray-200 shadow mx-auto">
+		<div
+			className={`w-full border border-gray-300 rounded-lg p-4 lg:w-[800px] bg-gray-200 shadow mx-auto ${className}`}
+		>
 			<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
