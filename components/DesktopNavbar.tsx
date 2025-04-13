@@ -16,11 +16,11 @@ export default function DesktopNavbar({ className }: DesktopNavbarProps) {
 				<div className="flex flex-col relative">
 					<div
 						className="absolute lg:-left-10 lg:top-1 -left-5 top-1 lg:w-9 lg:h-9 w-5 h-5 bg-teal-300 bg-opacity-50 rounded-full z-10 "
-						style={{ backgroundColor: "#3cb2b2bf" }}
+						style={{ backgroundColor: "var(--logo-teal)" }}
 					></div>
 					<div
 						className="absolute lg:-left-5 lg:top-1 -left-3 top-1 lg:w-13 lg:h-13 w-8 h-8 rounded-full z-0"
-						style={{ backgroundColor: "#f2ad2ed4" }}
+						style={{ backgroundColor: "var(--primary-yellow)" }}
 					></div>
 					<h1
 						className={`text-[24px] md:text-[24px] lg:text-[38px] font-bold text-gray-600 ${enriqueta.className} z-20 whitespace-nowrap`}

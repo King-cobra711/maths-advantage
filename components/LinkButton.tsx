@@ -59,7 +59,7 @@ export default function LinkButton({
 					className={`absolute -bottom-1 left-0 w-full h-0.5 transition-transform duration-300 origin-left ${
 						isActive ? "scale-x-100" : "scale-x-0"
 					}`}
-					style={{ backgroundColor: "#f2ad2ed4" }}
+					style={{ backgroundColor: "var(--primary-yellow)" }}
 				/>
 			)}
 		</Link>

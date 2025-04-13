@@ -28,11 +28,11 @@ export default function MobileNavbar({ className }: MobileNavbarProps) {
 				<div className="flex flex-col relative">
 					<div
 						className="absolute -left-5 top-1 w-5 h-5 bg-teal-300 bg-opacity-50 rounded-full z-10 "
-						style={{ backgroundColor: "#3cb2b2bf" }}
+						style={{ backgroundColor: "var(--logo-teal)" }}
 					></div>
 					<div
 						className="absolute -left-3 top-1 w-8 h-8 rounded-full z-0"
-						style={{ backgroundColor: "#f2ad2ed4" }}
+						style={{ backgroundColor: "var(--primary-yellow)" }}
 					></div>
 					<h1
 						className={`text-[24px] font-bold text-gray-600 ${enriqueta.className} z-20 whitespace-nowrap`}

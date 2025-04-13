@@ -2,7 +2,9 @@
 
 :root {
 	--background: #ffffff;
-	--foreground: #eae5e5;
+	--foreground: #111111;
+	--primary-yellow: #f2ad2ed4;
+	--logo-teal: #3cb2b2bf;
 	--font-sans: "Open Sans", sans-serif;
 	--font-mono: var(--font-geist-mono);
 }
@@ -10,12 +12,13 @@
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
+	--color-primary: var(--primary-yellow);
 	--font-sans: var(--font-sans);
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--background: #eae5e5;
+		--background: #ffffff;
 		--foreground: #111111;
 	}
 }
