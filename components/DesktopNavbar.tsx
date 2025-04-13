@@ -1,7 +1,10 @@
 import { Enriqueta } from "next/font/google";
 import LinkButton from "@/components/LinkButton";
 
-const enriqueta = Enriqueta({ weight: "700" });
+const enriqueta = Enriqueta({
+	weight: "400",
+	subsets: ["latin"],
+});
 
 interface DesktopNavbarProps {
 	className?: string;

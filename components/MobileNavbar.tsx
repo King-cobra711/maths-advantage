@@ -3,7 +3,10 @@ import { Enriqueta } from "next/font/google";
 import LinkButton from "@/components/LinkButton";
 import { useState } from "react";
 
-const enriqueta = Enriqueta({ weight: "700" });
+const enriqueta = Enriqueta({
+	weight: "400",
+	subsets: ["latin"],
+});
 
 interface MobileNavbarProps {
 	className?: string;
