@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Maths Advantage
+
+A Next.js application for managing mathematics tutoring services.
+
+## Tech Stack
+
+### Frontend
+
+- **Framework**: Next.js 15.2 with React 19
+- **Styling**: TailwindCSS 4
+- **Authentication**: OpenID Connect with AWS Cognito
+- **Components**:
+  - Keen Slider for carousels
+  - React Hook Form for form management
+
+### Backend & Infrastructure
+
+- **Hosting**: AWS EC2
+- **Container Registry**: AWS ECR
+- **Authentication**: AWS Cognito
+- **CI/CD**: GitHub Actions
+- **Containerization**: Docker
+
+### Development
+
+- **Language**: TypeScript
+- **Package Manager**: npm
+- **Build Tool**: Turbopack (dev mode)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js
+- npm
+- Docker
+- AWS CLI
+
+### Local Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application automatically deploys to AWS EC2 when changes are pushed to the main branch.
 
-## Learn More
+#### Infrastructure Setup
 
-To learn more about Next.js, take a look at the following resources:
+1. EC2 instance in ap-southeast-2 (Sydney)
+2. Elastic IP for consistent addressing: `13.55.185.86`
+3. ECR repository for Docker images
+4. Cognito User Pool for authentication
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `NODE_ENV`: Automatically set based on environment
+- Production URL: http://13.55.185.86
+- Development URL: http://localhost:3000
 
-## Deploy on Vercel
+## Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Admin dashboard with secure authentication
+- User management through AWS Cognito
+- Responsive design with TailwindCSS
+- Form handling with validation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+maths-advantage/
+├── app/                 # Next.js app directory
+│   ├── admin/          # Admin dashboard
+│   └── providers.tsx   # Auth provider setup
+├── components/         # Reusable components
+├── public/            # Static assets
+└── styles/           # Global styles
+```
+
+## Scripts
+
+```bash
+npm run dev      # Start development server with Turbopack
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
+
+## AWS Configuration
+
+1. Set up AWS credentials
+2. Configure ECR repository
+3. Set up Cognito User Pool
+4. Configure EC2 instance
+5. Set up Elastic IP
+
+## Contributing
+
+1. Create a feature branch
+2. Make changes
+3. Push to GitHub
+4. GitHub Actions will automatically deploy to EC2
+
+## Security
+
+- Admin access controlled through Cognito groups
+- HTTPS recommended for production
+- Environment variables properly configured
+- AWS resources properly secured
