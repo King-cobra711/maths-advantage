@@ -42,7 +42,13 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_STAGING_SSH_KEY }}
           script: |
+            # Get ECR login token and login
+            aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
+
+            # Stop and remove existing containers
             docker stop $(docker ps -q) || true
             docker rm $(docker ps -a -q) || true
+
+            # Pull and run new image
             docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
             docker run -d -p 80:3000 ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
