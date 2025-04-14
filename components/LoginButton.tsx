@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "react-oidc-context";
-
+import { Spinner } from "@/components/Spinner";
 export function LoginButton() {
 	const auth = useAuth();
 
@@ -13,13 +13,8 @@ export function LoginButton() {
 		}
 	};
 
-	const isAdmin = () => {
-		const groups = auth.user?.profile["cognito:groups"] as string[] | undefined;
-		return groups?.includes("Admin") ?? false;
-	};
-
 	if (auth.isLoading) {
-		return <div>Loading...</div>;
+		return <Spinner />;
 	}
 
 	if (auth.error) {
@@ -29,6 +24,7 @@ export function LoginButton() {
 	if (auth.isAuthenticated) {
 		return (
 			<div className="flex flex-col items-center gap-4">
+				<p>Welcome, {auth.user?.profile.email}</p>
 				<button
 					onClick={handleLogout}
 					className="bg-red-500 text-white px-4 py-2 rounded"
@@ -44,7 +40,7 @@ export function LoginButton() {
 			onClick={() => void auth.signinRedirect()}
 			className="bg-teal-600 text-white px-4 py-2 rounded"
 		>
-			Admin Login
+			Login
 		</button>
 	);
 }

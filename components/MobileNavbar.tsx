@@ -2,6 +2,7 @@
 import { Enriqueta } from "next/font/google";
 import LinkButton from "@/components/LinkButton";
 import { useState } from "react";
+import Link from "next/link";
 
 const enriqueta = Enriqueta({
 	weight: "400",
@@ -27,26 +28,28 @@ export default function MobileNavbar({ className }: MobileNavbarProps) {
 		<div
 			className={`flex items-center w-full max-w-7xl mx-auto gap-6 px-10 py-4 ${className} justify-between`}
 		>
-			<div className="flex items-center">
-				<div className="flex flex-col relative">
-					<div
-						className="absolute -left-5 top-1 w-5 h-5 bg-teal-300 bg-opacity-50 rounded-full z-10 "
-						style={{ backgroundColor: "var(--logo-teal)" }}
-					></div>
-					<div
-						className="absolute -left-3 top-1 w-8 h-8 rounded-full z-0"
-						style={{ backgroundColor: "var(--primary-yellow)" }}
-					></div>
-					<h1
-						className={`text-[24px] font-bold text-gray-600 ${enriqueta.className} z-20 whitespace-nowrap`}
-					>
-						Maths Advantage
-					</h1>
-					<p className="text-[14px] text-gray-500 z-20 whitespace-nowrap">
-						Maths Tutoring Specialists
-					</p>
+			<Link href="/">
+				<div className="flex items-center">
+					<div className="flex flex-col relative">
+						<div
+							className="absolute -left-5 top-1 w-5 h-5 bg-teal-300 bg-opacity-50 rounded-full z-10 "
+							style={{ backgroundColor: "var(--logo-teal)" }}
+						></div>
+						<div
+							className="absolute -left-3 top-1 w-8 h-8 rounded-full z-0"
+							style={{ backgroundColor: "var(--primary-yellow)" }}
+						></div>
+						<h1
+							className={`text-[24px] font-bold text-gray-600 ${enriqueta.className} z-20 whitespace-nowrap`}
+						>
+							Maths Advantage
+						</h1>
+						<p className="text-[14px] text-gray-500 z-20 whitespace-nowrap">
+							Maths Tutoring Specialists
+						</p>
+					</div>
 				</div>
-			</div>
+			</Link>
 			<div className="relative flex items-center justify-end">
 				<button
 					onClick={toggleMenu}
