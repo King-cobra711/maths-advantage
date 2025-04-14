@@ -3,6 +3,7 @@ import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Providers } from "./providers";
 
 const openSans = Open_Sans({
 	weight: ["400", "700"],
@@ -22,9 +23,13 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className="flex flex-col min-h-screen">
-				<Header />
-				<main className="flex-grow max-w-7xl px-3 lg:mx-auto">{children}</main>
-				<Footer />
+				<Providers>
+					<Header />
+					<main className="flex-grow max-w-7xl px-3 lg:mx-auto">
+						{children}
+					</main>
+					<Footer />
+				</Providers>
 			</body>
 		</html>
 	);
