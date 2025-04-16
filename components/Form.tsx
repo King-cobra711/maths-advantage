@@ -1,23 +1,32 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-
-interface FormData {
-	name: string;
-	email: string;
-	phone: string;
-	subject?: string;
-	message?: string;
-}
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+	contactFormSchema,
+	ContactFormData,
+} from "@/app/libs/validations/contact";
+import { useState } from "react";
 
 export default function ContactForm({ className }: { className?: string }) {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<FormData>();
+		reset,
+	} = useForm<ContactFormData>({
+		resolver: zodResolver(contactFormSchema),
+	});
 
-	const onSubmit: SubmitHandler<FormData> = async (data) => {
+	const [lastSubmission, setLastSubmission] = useState<number>(0);
+
+	const onSubmit = async (data: ContactFormData) => {
 		try {
-			const response = await fetch("http://localhost:3001/send-email", {
+			// Check if 60 seconds have passed since last submission
+			const now = Date.now();
+			if (now - lastSubmission < 60000) {
+				throw new Error("Please wait a minute before sending another message");
+			}
+
+			const response = await fetch("/api/emails/contact", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -25,14 +34,21 @@ export default function ContactForm({ className }: { className?: string }) {
 				body: JSON.stringify(data),
 			});
 
-			if (response.ok) {
-				alert("Email sent successfully!");
-			} else {
-				alert("Failed to send email.");
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.message || "Failed to send email");
 			}
+
+			setLastSubmission(now);
+			alert("Message sent successfully!");
+			reset();
 		} catch (error) {
 			console.error("Error:", error);
-			alert("An error occurred while sending the email.");
+			alert(
+				error instanceof Error
+					? error.message
+					: "An error occurred while sending the message."
+			);
 		}
 	};
 
@@ -47,11 +63,11 @@ export default function ContactForm({ className }: { className?: string }) {
 					</label>
 					<input
 						type="text"
-						{...register("name", { required: true })}
+						{...register("name")}
 						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white text-black"
 					/>
 					{errors.name && (
-						<span className="text-red-500">This field is required</span>
+						<span className="text-red-500">{errors.name.message}</span>
 					)}
 				</div>
 				<div>
@@ -60,11 +76,11 @@ export default function ContactForm({ className }: { className?: string }) {
 					</label>
 					<input
 						type="email"
-						{...register("email", { required: true })}
+						{...register("email")}
 						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white text-black"
 					/>
 					{errors.email && (
-						<span className="text-red-500">This field is required</span>
+						<span className="text-red-500">{errors.email.message}</span>
 					)}
 				</div>
 				<div>
@@ -73,11 +89,11 @@ export default function ContactForm({ className }: { className?: string }) {
 					</label>
 					<input
 						type="tel"
-						{...register("phone", { required: true })}
+						{...register("phone")}
 						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white text-black"
 					/>
 					{errors.phone && (
-						<span className="text-red-500">This field is required</span>
+						<span className="text-red-500">{errors.phone.message}</span>
 					)}
 				</div>
 				<div>
@@ -95,11 +111,11 @@ export default function ContactForm({ className }: { className?: string }) {
 						Message<span className="text-red-500">*</span>
 					</label>
 					<textarea
-						{...register("message", { required: true })}
+						{...register("message")}
 						className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-white text-black h-32"
 					></textarea>
 					{errors.message && (
-						<span className="text-red-500">This field is required</span>
+						<span className="text-red-500">{errors.message.message}</span>
 					)}
 				</div>
 				<div className="flex justify-end">
