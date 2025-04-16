@@ -2,7 +2,7 @@
 
 A Next.js application for managing mathematics tutoring services.
 
-[![Live Site](https://img.shields.io/badge/Live-Production-brightgreen)](http://13.55.185.86)
+[![Live Site](https://img.shields.io/badge/Live-WIP-yellow)](http://13.55.185.86)
 
 🌐 **[View Live Site](http://13.55.185.86)**
 
