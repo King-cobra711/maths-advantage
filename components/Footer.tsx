@@ -36,7 +36,7 @@ export default function Footer() {
 					<div className="flex items-center gap-2 break-words text-left lg:mx-auto z-10">
 						<div className="text-2xl -mt-5">&#169;</div>
 						<div>
-							<p>2019 by</p>
+							<p>2025 by</p>
 							<p>Maths Advantage</p>
 						</div>
 					</div>
