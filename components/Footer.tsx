@@ -1,6 +1,7 @@
 import { MapPin } from "@/components/icons/MapPin";
 import { PhoneIcon } from "@/components/icons/PhoneIcon";
 import { Email } from "@/components/icons/Email";
+import Link from "next/link";
 export default function Footer() {
 	return (
 		<footer className="w-full text-white bg-teal-600">
@@ -16,15 +17,23 @@ export default function Footer() {
 						</div>
 					</div>
 					<div className="flex items-start gap-2 break-words text-left lg:mx-auto z-10">
-						<span className="mt-1">
-							<PhoneIcon />
-						</span>
-						<div>
-							<p>Call</p>
-							<p>T: 0409 896 761</p>
-						</div>
+						<a
+							href="tel:0409896761"
+							className="flex items-start gap-2 hover:text-white/80 transition-colors"
+						>
+							<span className="mt-1">
+								<PhoneIcon />
+							</span>
+							<div>
+								<p>Call</p>
+								<p>T: 0409 896 761</p>
+							</div>
+						</a>
 					</div>
-					<div className="flex items-start gap-2 break-words text-left lg:mx-auto z-10">
+					<Link
+						href="/contact"
+						className="flex items-start gap-2 break-words text-left lg:mx-auto hover:text-white/80 z-10"
+					>
 						<span>
 							<Email />
 						</span>
@@ -32,7 +41,7 @@ export default function Footer() {
 							<p>Contact</p>
 							<p>info@mathsadvantage.com.au</p>
 						</div>
-					</div>
+					</Link>
 					<div className="flex items-center gap-2 break-words text-left lg:mx-auto z-10">
 						<div className="text-2xl -mt-5">&#169;</div>
 						<div>

@@ -24,10 +24,13 @@ export default function NoticeBoard({
 
 			<div className="flex flex-col text-center mt-4">
 				<p className="text-red-500 text-center">Book Now!</p>
-				<div className="flex items-center mt-2 mx-auto">
-					<PhoneIcon />
+				<a
+					href="tel:0409896761"
+					className="flex items-center mt-2 mx-auto hover:text-blue-600 transition-colors"
+				>
+					<PhoneIcon className="pt-1" />
 					<p>0409 896 761</p>
-				</div>
+				</a>
 			</div>
 		</div>
 	);
