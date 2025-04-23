@@ -1,5 +1,6 @@
 import { Pin } from "@/components/icons/Pin";
 import { PhoneIcon } from "@/components/icons/PhoneIcon";
+import Link from "next/link";
 
 export default function NoticeBoard({
 	className,
@@ -22,8 +23,12 @@ export default function NoticeBoard({
 			</div>
 			<p className="text-center text-teal-800">{text}</p>
 
-			<div className="flex flex-col text-center mt-4">
-				<p className="text-red-500 text-center">Book Now!</p>
+			<div className="flex flex-col text-center mt-4 gap-2">
+				<Link href="/contact">
+					<p className="text-red-500 text-center hover:underline transition-all">
+						Book Now!
+					</p>
+				</Link>
 				<a
 					href="tel:0409896761"
 					className="flex items-center mt-2 mx-auto hover:text-blue-600 transition-colors"

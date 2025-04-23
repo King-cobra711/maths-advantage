@@ -55,9 +55,9 @@ export default function MobileNavbar({ className }: MobileNavbarProps) {
 					onClick={toggleMenu}
 					className="lg:hidden flex flex-col items-center"
 				>
-					<span className="block w-6 h-0.5 bg-gray-600 mb-1"></span>
-					<span className="block w-6 h-0.5 bg-gray-600 mb-1"></span>
-					<span className="block w-6 h-0.5 bg-gray-600"></span>
+					<span className="block w-8 h-0.5 bg-gray-600 mb-1"></span>
+					<span className="block w-8 h-0.5 bg-gray-600 mb-1"></span>
+					<span className="block w-8 h-0.5 bg-gray-600"></span>
 				</button>
 			</div>
 			<div
