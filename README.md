@@ -119,13 +119,6 @@ npm run lint     # Run ESLint
    - Set up IAM user for SES
    - Configure environment variables
 
-## Contributing
-
-1. Create a feature branch
-2. Make changes
-3. Push to GitHub
-4. GitHub Actions will automatically deploy to EC2
-
 ## Security
 
 - Admin access controlled through Cognito groups
