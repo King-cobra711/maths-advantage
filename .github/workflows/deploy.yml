@@ -42,6 +42,9 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_STAGING_SSH_KEY }}
           script: |
+            # Cleanup before pulling new image
+            docker system prune -af --volumes  # Remove unused images, containers, volumes
+
             # Get ECR login token and login
             aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
 
@@ -52,3 +55,8 @@ jobs:
             # Pull and run new image
             docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
             docker run -d -p 80:3000 ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+
+      - name: Clean up old images
+        run: |
+          # Keep only images newer than 7 days
+          docker image prune -a --force --filter "until=168h"
