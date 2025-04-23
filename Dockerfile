@@ -2,42 +2,44 @@
 FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Increase memory for Node
-ENV NODE_OPTIONS="--max-old-space-size=4096"
+# Add necessary build tools
+RUN apk add --no-cache python3 make g++
 
-# Install dependencies with more verbose output
+# Debug: Show environment and directory
+RUN node -v && npm -v && pwd
+
+# Copy package files first
 COPY package*.json ./
-RUN npm config set fetch-retry-maxtimeout 600000 \
-    && npm config set fetch-timeout 600000 \
-    && npm ci --verbose \
+
+# Install dependencies
+RUN npm install \
     && npm cache clean --force
 
-# Copy source and build
+# Copy source code
 COPY . .
+
+# Debug: List files to verify they exist
+RUN ls -la
+
+# Build
 RUN npm run build
 
 # Stage 2: Production stage
 FROM node:18-alpine AS runner
 WORKDIR /app
 
-# Increase memory for Node
-ENV NODE_OPTIONS="--max-old-space-size=4096"
-
 # Copy package files and install production dependencies
 COPY package*.json ./
-RUN npm config set fetch-retry-maxtimeout 600000 \
-    && npm config set fetch-timeout 600000 \
-    && npm ci --only=production --verbose \
+RUN npm install --only=production \
     && npm cache clean --force
 
 # Copy built files from builder stage
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/.next/ ./.next/
+COPY --from=builder /app/public/ ./public/
+COPY --from=builder /app/next.config.ts ./next.config.ts
 
 # Environment setup
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Start the app
 CMD ["npm", "start"]
