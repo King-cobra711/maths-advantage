@@ -32,7 +32,14 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
-          docker build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          # Cleanup before building
+          docker system prune -af --volumes
+
+          # Build with specific platform and memory limits
+          docker build --platform linux/amd64 \
+            --memory=4g \
+            --memory-swap=4g \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Deploy to EC2
@@ -42,21 +49,40 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_STAGING_SSH_KEY }}
           script: |
-            # Cleanup before pulling new image
-            docker system prune -af --volumes  # Remove unused images, containers, volumes
+            # Aggressive cleanup first
+            docker system prune -af --volumes
+            docker image prune -af
+
+            # Remove all containers and images
+            docker stop $(docker ps -q) || true
+            docker rm $(docker ps -a -q) || true
+            docker rmi $(docker images -q) || true
+
+            # Clear Docker build cache
+            docker builder prune -af
+
+            # Check available space
+            df -h /
 
             # Get ECR login token and login
             aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
 
-            # Stop and remove existing containers
-            docker stop $(docker ps -q) || true
-            docker rm $(docker ps -a -q) || true
-
             # Pull and run new image
             docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
-            docker run -d -p 80:3000 ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+
+            # Run with memory limits
+            docker run -d \
+              --memory=2g \
+              --memory-swap=2g \
+              -p 80:3000 \
+              ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+
+            # Verify container is running
+            docker ps
+            df -h /
 
       - name: Clean up old images
         run: |
-          # Keep only images newer than 7 days
-          docker image prune -a --force --filter "until=168h"
+          # More aggressive cleanup
+          docker image prune -a --force
+          docker builder prune -af
