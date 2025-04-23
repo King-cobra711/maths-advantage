@@ -35,11 +35,16 @@ jobs:
           # Cleanup before building
           docker system prune -af --volumes
 
-          # Build with specific platform and memory limits
-          docker build --platform linux/amd64 \
-            --memory=4g \
-            --memory-swap=4g \
+          # Build with increased memory and debugging
+          DOCKER_BUILDKIT=1 docker build \
+            --platform linux/amd64 \
+            --memory=8g \
+            --memory-swap=8g \
+            --build-arg NODE_OPTIONS="--max-old-space-size=4096" \
+            --progress=plain \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+
+          # Push the image
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Deploy to EC2
