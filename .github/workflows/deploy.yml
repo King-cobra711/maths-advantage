@@ -32,14 +32,10 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
-          # Build from the directory containing Dockerfile
-          docker build \
-            --platform linux/amd64 \
-            --progress=plain \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-            ./maths-advantage
+          # Cleanup before building
+          docker system prune -af --volumes
 
-          # Push the image
+          docker build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Deploy to EC2
@@ -52,9 +48,9 @@ jobs:
             # Aggressive cleanup first
             docker system prune -af --volumes
             docker image prune -af
+            docker container prune -f
 
-            # Remove all containers and images
-            docker stop $(docker ps -q) || true
+            # Remove all stopped containers and unused images
             docker rm $(docker ps -a -q) || true
             docker rmi $(docker images -q) || true
 
@@ -69,17 +65,18 @@ jobs:
 
             # Pull and run new image
             docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
-
-            # Run with memory limits
             docker run -d \
               --memory=2g \
               --memory-swap=2g \
               -p 80:3000 \
               ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
 
-            # Verify container is running
-            docker ps
+            # Final cleanup
+            docker image prune -af
+
+            # Verify space and container
             df -h /
+            docker ps
 
       - name: Clean up old images
         run: |
