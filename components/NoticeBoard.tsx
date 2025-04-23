@@ -25,7 +25,7 @@ export default function NoticeBoard({
 
 			<div className="flex flex-col text-center mt-4 gap-2">
 				<Link href="/contact">
-					<p className="text-red-500 text-center hover:underline transition-all">
+					<p className="text-blue-500 text-center hover:underline transition-all">
 						Book Now!
 					</p>
 				</Link>
