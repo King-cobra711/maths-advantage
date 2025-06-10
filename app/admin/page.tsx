@@ -3,6 +3,7 @@ import { useAuth } from "react-oidc-context";
 import { LoginButton } from "@/components/LoginButton";
 import { Spinner } from "@/components/Spinner";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function AdminPage() {
 	const auth = useAuth();
@@ -52,9 +53,12 @@ export default function AdminPage() {
 								<button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition-colors">
 									Manage Bookings
 								</button>
-								<button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition-colors">
+								<Link
+									href="/admin/users"
+									className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition-colors text-center"
+								>
 									Manage Users
-								</button>
+								</Link>
 							</div>
 							<div className="text-center">
 								<LoginButton />

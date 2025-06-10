@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.826.0",
     "@aws-sdk/client-ses": "^3.787.0",
     "@hookform/resolvers": "^5.0.1",
+    "@types/aws-sdk": "^0.0.42",
     "keen-slider": "^6.8.6",
     "next": "15.2.4",
     "oidc-client-ts": "^3.2.0",
