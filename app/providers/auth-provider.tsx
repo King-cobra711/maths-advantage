@@ -2,12 +2,14 @@
 import { AuthProvider } from "react-oidc-context";
 
 const isDevelopment = process.env.NODE_ENV === "development";
-const baseUrl = isDevelopment ? "http://localhost:3000" : "http://13.55.185.86";
+const baseUrl = isDevelopment
+	? "http://localhost:3000"
+	: "https://dev.mathsadvantage.com.au";
 
 // This is pool for production
 // const cognitoAuthConfig = {
-// 	authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_Jn6Ruf7G7",
-// 	client_id: "3ogfcls91pc1npf6rgipmk2f7b",
+// 	authority: process.env.NEXT_PUBLIC_COGNITO_AUTHORITY_PROD,
+// 	client_id: process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID_PROD,
 // 	redirect_uri: `${baseUrl}/admin`,
 // 	post_logout_redirect_uri: `${baseUrl}/admin`,
 // 	response_type: "code",
@@ -16,10 +18,10 @@ const baseUrl = isDevelopment ? "http://localhost:3000" : "http://13.55.185.86";
 
 // This is pool for testing
 const cognitoAuthConfig = {
-	authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_fG387CKBe",
-	client_id: "cbujidrfalpnlcsa8kmhbcq64",
-	redirect_uri: `http://localhost:3000/admin`,
-	post_logout_redirect_uri: `http://localhost:3000/admin`,
+	authority: process.env.NEXT_PUBLIC_COGNITO_AUTHORITY_TEST,
+	client_id: process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID_TEST,
+	redirect_uri: `${baseUrl}/admin`,
+	post_logout_redirect_uri: `${baseUrl}/admin`,
 	response_type: "code",
 	scope: "email openid phone",
 };
