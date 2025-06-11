@@ -5,11 +5,20 @@ import {
 	UserType,
 	AttributeType,
 	AdminListGroupsForUserCommand,
+	AdminCreateUserCommand,
+	AdminDeleteUserCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 const cognito = new CognitoIdentityProviderClient({
 	region: "us-east-1",
 });
+//Production
+// const USER_POOL_ID = "us-east-1_Jn6Ruf7G7";
+
+//Testing
+const USER_POOL_ID = "us-east-1_P2cFlkzh3";
+
+const PROTECTED_EMAIL = "matthew@mathsadvantage.com.au";
 
 export async function GET(request: Request) {
 	try {
@@ -21,7 +30,7 @@ export async function GET(request: Request) {
 
 		// List users from Cognito
 		const command = new ListUsersCommand({
-			UserPoolId: "us-east-1_Jn6Ruf7G7",
+			UserPoolId: USER_POOL_ID,
 		});
 
 		const response = await cognito.send(command);
@@ -33,7 +42,7 @@ export async function GET(request: Request) {
 				if (user.Username) {
 					const groupResp = await cognito.send(
 						new AdminListGroupsForUserCommand({
-							UserPoolId: "us-east-1_Jn6Ruf7G7",
+							UserPoolId: USER_POOL_ID,
 							Username: user.Username,
 						})
 					);
@@ -56,6 +65,63 @@ export async function GET(request: Request) {
 		console.error("Error fetching users:", error);
 		return NextResponse.json(
 			{ error: "Failed to fetch users" },
+			{ status: 500 }
+		);
+	}
+}
+
+export async function POST(request: Request) {
+	try {
+		const { email, temporaryPassword } = await request.json();
+		if (!email || !temporaryPassword) {
+			return NextResponse.json(
+				{ error: "Email and temporary password required" },
+				{ status: 400 }
+			);
+		}
+		await cognito.send(
+			new AdminCreateUserCommand({
+				UserPoolId: USER_POOL_ID,
+				Username: email,
+				TemporaryPassword: temporaryPassword,
+				UserAttributes: [{ Name: "email", Value: email }],
+				MessageAction: "SUPPRESS", // Don't send invite email automatically
+			})
+		);
+		return NextResponse.json({ success: true });
+	} catch (error) {
+		console.error("Error creating user:", error);
+		return NextResponse.json(
+			{ error: "Failed to create user" },
+			{ status: 500 }
+		);
+	}
+}
+
+export async function DELETE(request: Request) {
+	try {
+		const { searchParams } = new URL(request.url);
+		const username = searchParams.get("username");
+		if (!username) {
+			return NextResponse.json({ error: "Username required" }, { status: 400 });
+		}
+		if (username === PROTECTED_EMAIL) {
+			return NextResponse.json(
+				{ error: "Cannot delete this user via API" },
+				{ status: 403 }
+			);
+		}
+		await cognito.send(
+			new AdminDeleteUserCommand({
+				UserPoolId: USER_POOL_ID,
+				Username: username,
+			})
+		);
+		return NextResponse.json({ success: true });
+	} catch (error) {
+		console.error("Error deleting user:", error);
+		return NextResponse.json(
+			{ error: "Failed to delete user" },
 			{ status: 500 }
 		);
 	}
