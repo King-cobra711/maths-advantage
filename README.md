@@ -2,9 +2,9 @@
 
 A Next.js application for managing mathematics tutoring services.
 
-[![Live Site](https://img.shields.io/badge/Live-WIP-yellow)](http://13.55.185.86)
+[![Live Site](https://img.shields.io/badge/Live-WIP-yellow)](https://dev.mathsadvantage.com.au/)
 
-🌐 **[View Live Site](http://13.55.185.86)**
+🌐 **[View Live Site](https://dev.mathsadvantage.com.au/)**
 
 ## Tech Stack
 
