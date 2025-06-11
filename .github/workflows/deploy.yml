@@ -35,7 +35,12 @@ jobs:
           # Cleanup before building
           docker system prune -af --volumes
 
-          docker build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build --platform linux/amd64 \
+            --build-arg NEXT_PUBLIC_COGNITO_AUTHORITY_PROD=${{ secrets.NEXT_PUBLIC_COGNITO_AUTHORITY_PROD }} \
+            --build-arg NEXT_PUBLIC_COGNITO_CLIENT_ID_PROD=${{ secrets.NEXT_PUBLIC_COGNITO_CLIENT_ID_PROD }} \
+            --build-arg NEXT_PUBLIC_COGNITO_AUTHORITY_TEST=${{ secrets.NEXT_PUBLIC_COGNITO_AUTHORITY_TEST }} \
+            --build-arg NEXT_PUBLIC_COGNITO_CLIENT_ID_TEST=${{ secrets.NEXT_PUBLIC_COGNITO_CLIENT_ID_TEST }} \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Deploy to EC2
