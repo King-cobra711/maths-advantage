@@ -10,7 +10,7 @@ export default function Home() {
 				Welcome to Maths Advantage
 			</h1>
 			<p className="text-lg mx-auto text-center pb-8">
-				Your one stop shop for all your maths needs!
+				Your one stop shop for all your maths needs!!
 			</p>
 			<div className="w-full flex flex-col items-center lg:flex-row gap-4">
 				<Slider />

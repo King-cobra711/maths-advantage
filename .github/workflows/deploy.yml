@@ -50,6 +50,9 @@ jobs:
             docker image prune -af
             docker container prune -f
 
+            # Stop and remove old container if it exists
+            docker rm -f maths-advantage-app || true
+
             # Remove all stopped containers and unused images
             docker rm $(docker ps -a -q) || true
             docker rmi $(docker images -q) || true
@@ -65,10 +68,7 @@ jobs:
 
             # Pull and run new image
             docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
-            docker run -d \
-              --memory=2g \
-              --memory-swap=2g \
-              -p 80:3000 \
+            docker run -d --name maths-advantage-app -p 3000:3000 \
               ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
 
             # Final cleanup
