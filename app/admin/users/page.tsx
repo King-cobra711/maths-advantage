@@ -7,6 +7,7 @@ import { LoginButton } from "@/components/LoginButton";
 interface User {
 	username: string;
 	email: string;
+	name?: string;
 	enabled: boolean;
 	userStatus: string;
 	groups?: string[];
@@ -17,6 +18,13 @@ export default function UsersPage() {
 	const [users, setUsers] = useState<User[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [newUser, setNewUser] = useState({ email: "", password: "", name: "" });
+	const [creating, setCreating] = useState(false);
+	const [editingUser, setEditingUser] = useState<string | null>(null);
+	const [editName, setEditName] = useState("");
+	const [editingPassword, setEditingPassword] = useState<string | null>(null);
+	const [newPassword, setNewPassword] = useState("");
+	const PROTECTED_EMAIL = "matthew@mathsadvantage.com.au";
 
 	const isAdmin = () => {
 		const groups = auth.user?.profile["cognito:groups"] as string[] | undefined;
@@ -57,6 +65,89 @@ export default function UsersPage() {
 	const containerClasses = "p-4 flex items-center justify-center";
 	const cardClasses =
 		"w-full border border-gray-200 rounded-lg shadow-lg p-6 bg-white";
+
+	const handleCreateUser = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setCreating(true);
+		try {
+			const res = await fetch("/api/admin/users", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${auth.user?.access_token}`,
+				},
+				body: JSON.stringify({
+					email: newUser.email,
+					temporaryPassword: newUser.password,
+					name: newUser.name,
+				}),
+			});
+			if (!res.ok) throw new Error("Failed to create user");
+			setNewUser({ email: "", password: "", name: "" });
+			// Refetch users
+			const data = await res.json();
+			window.location.reload();
+		} catch (err: any) {
+			alert(err.message);
+		} finally {
+			setCreating(false);
+		}
+	};
+
+	const handleEditName = async (username: string) => {
+		try {
+			const res = await fetch("/api/admin/users", {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${auth.user?.access_token}`,
+				},
+				body: JSON.stringify({ username, name: editName }),
+			});
+			if (!res.ok) throw new Error("Failed to update name");
+			setEditingUser(null);
+			setEditName("");
+			window.location.reload();
+		} catch (err: any) {
+			alert(err.message);
+		}
+	};
+
+	const handleEditPassword = async (username: string) => {
+		try {
+			const res = await fetch("/api/admin/users", {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${auth.user?.access_token}`,
+				},
+				body: JSON.stringify({ username, password: newPassword }),
+			});
+			if (!res.ok) throw new Error("Failed to update password");
+			setEditingPassword(null);
+			setNewPassword("");
+			alert("Password updated successfully");
+		} catch (err: any) {
+			alert(err.message);
+		}
+	};
+
+	const handleDeleteUser = async (username: string) => {
+		if (!window.confirm("Are you sure you want to delete this user?")) return;
+		try {
+			const res = await fetch(
+				`/api/admin/users?username=${encodeURIComponent(username)}`,
+				{
+					method: "DELETE",
+					headers: { Authorization: `Bearer ${auth.user?.access_token}` },
+				}
+			);
+			if (!res.ok) throw new Error("Failed to delete user");
+			window.location.reload();
+		} catch (err: any) {
+			alert(err.message);
+		}
+	};
 
 	if (auth.error) {
 		return (
@@ -118,6 +209,45 @@ export default function UsersPage() {
 				<h1 className="text-3xl text-teal-600 mb-6 text-center">
 					User Management
 				</h1>
+				{/* Create User Form */}
+				<form
+					onSubmit={handleCreateUser}
+					className="mb-6 flex flex-wrap gap-2 items-center"
+				>
+					<input
+						type="email"
+						required
+						placeholder="Email"
+						value={newUser.email}
+						onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+						className="p-2 border rounded"
+					/>
+					<input
+						type="text"
+						required
+						placeholder="Name"
+						value={newUser.name}
+						onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+						className="p-2 border rounded"
+					/>
+					<input
+						type="password"
+						required
+						placeholder="Temp Password"
+						value={newUser.password}
+						onChange={(e) =>
+							setNewUser({ ...newUser, password: e.target.value })
+						}
+						className="p-2 border rounded"
+					/>
+					<button
+						type="submit"
+						disabled={creating}
+						className="bg-teal-600 text-white px-4 py-2 rounded"
+					>
+						Create User
+					</button>
+				</form>
 				{error ? (
 					<div className="text-red-500 text-center mb-4">{error}</div>
 				) : (
@@ -132,10 +262,16 @@ export default function UsersPage() {
 										Email
 									</th>
 									<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+										Name
+									</th>
+									<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 										Status
 									</th>
 									<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 										Groups
+									</th>
+									<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+										Actions
 									</th>
 								</tr>
 							</thead>
@@ -149,10 +285,91 @@ export default function UsersPage() {
 											{user.email}
 										</td>
 										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+											{editingUser === user.username ? (
+												<>
+													<input
+														type="text"
+														value={editName}
+														onChange={(e) => setEditName(e.target.value)}
+														className="p-1 border rounded"
+													/>
+													<button
+														onClick={() => handleEditName(user.username)}
+														className="ml-2 text-blue-600"
+													>
+														Save
+													</button>
+													<button
+														onClick={() => setEditingUser(null)}
+														className="ml-2 text-gray-600"
+													>
+														Cancel
+													</button>
+												</>
+											) : (
+												<>
+													{user.name || "-"}{" "}
+													<button
+														onClick={() => {
+															setEditingUser(user.username);
+															setEditName(user.name || "");
+														}}
+														className="ml-2 text-blue-600"
+													>
+														Edit
+													</button>
+												</>
+											)}
+										</td>
+										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
 											{user.enabled ? "Enabled" : "Disabled"}
 										</td>
 										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
 											{user.groups?.join(", ") || "No groups"}
+										</td>
+										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+											{editingPassword === user.username ? (
+												<>
+													<input
+														type="password"
+														value={newPassword}
+														onChange={(e) => setNewPassword(e.target.value)}
+														placeholder="New Password"
+														className="p-1 border rounded"
+													/>
+													<button
+														onClick={() => handleEditPassword(user.username)}
+														className="ml-2 text-blue-600"
+													>
+														Save
+													</button>
+													<button
+														onClick={() => {
+															setEditingPassword(null);
+															setNewPassword("");
+														}}
+														className="ml-2 text-gray-600"
+													>
+														Cancel
+													</button>
+												</>
+											) : (
+												<>
+													<button
+														onClick={() => setEditingPassword(user.username)}
+														className="text-blue-600 mr-2"
+													>
+														Change Password
+													</button>
+													<button
+														onClick={() => handleDeleteUser(user.username)}
+														className="text-red-600"
+														disabled={user.email === PROTECTED_EMAIL}
+													>
+														Delete
+													</button>
+												</>
+											)}
 										</td>
 									</tr>
 								))}

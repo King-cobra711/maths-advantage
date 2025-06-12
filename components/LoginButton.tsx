@@ -24,7 +24,7 @@ export function LoginButton() {
 	if (auth.isAuthenticated) {
 		return (
 			<div className="flex flex-col items-center gap-4">
-				<p>Welcome, {auth.user?.profile.email}</p>
+				<p>Welcome, {auth.user?.profile.name || auth.user?.profile.email}</p>
 				<button
 					onClick={handleLogout}
 					className="bg-red-500 text-white px-4 py-2 rounded"

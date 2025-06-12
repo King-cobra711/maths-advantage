@@ -7,6 +7,9 @@ import {
 	AdminListGroupsForUserCommand,
 	AdminCreateUserCommand,
 	AdminDeleteUserCommand,
+	AdminUpdateUserAttributesCommand,
+	AdminAddUserToGroupCommand,
+	AdminSetUserPasswordCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 const cognito = new CognitoIdentityProviderClient({
@@ -22,20 +25,17 @@ const PROTECTED_EMAIL = "matthew@mathsadvantage.com.au";
 
 export async function GET(request: Request) {
 	try {
-		// Get the authorization header
 		const authHeader = request.headers.get("authorization");
 		if (!authHeader?.startsWith("Bearer ")) {
 			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 		}
 
-		// List users from Cognito
 		const command = new ListUsersCommand({
 			UserPoolId: USER_POOL_ID,
 		});
 
 		const response = await cognito.send(command);
 
-		// For each user, fetch their groups
 		const users = await Promise.all(
 			(response.Users || []).map(async (user: UserType) => {
 				let groups: string[] = [];
@@ -52,6 +52,9 @@ export async function GET(request: Request) {
 					username: user.Username,
 					email: user.Attributes?.find(
 						(attr: AttributeType) => attr.Name === "email"
+					)?.Value,
+					name: user.Attributes?.find(
+						(attr: AttributeType) => attr.Name === "name"
 					)?.Value,
 					enabled: user.Enabled,
 					userStatus: user.UserStatus,
@@ -72,22 +75,36 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
 	try {
-		const { email, temporaryPassword } = await request.json();
+		const { email, temporaryPassword, name } = await request.json();
 		if (!email || !temporaryPassword) {
 			return NextResponse.json(
 				{ error: "Email and temporary password required" },
 				{ status: 400 }
 			);
 		}
+
+		// Create the user
 		await cognito.send(
 			new AdminCreateUserCommand({
 				UserPoolId: USER_POOL_ID,
 				Username: email,
 				TemporaryPassword: temporaryPassword,
-				UserAttributes: [{ Name: "email", Value: email }],
-				MessageAction: "SUPPRESS", // Don't send invite email automatically
+				UserAttributes: [
+					{ Name: "email", Value: email },
+					...(name ? [{ Name: "name", Value: name }] : []),
+				],
+				MessageAction: "SUPPRESS",
 			})
 		);
+
+		await cognito.send(
+			new AdminAddUserToGroupCommand({
+				UserPoolId: USER_POOL_ID,
+				Username: email,
+				GroupName: "test-users",
+			})
+		);
+
 		return NextResponse.json({ success: true });
 	} catch (error) {
 		console.error("Error creating user:", error);
@@ -122,6 +139,60 @@ export async function DELETE(request: Request) {
 		console.error("Error deleting user:", error);
 		return NextResponse.json(
 			{ error: "Failed to delete user" },
+			{ status: 500 }
+		);
+	}
+}
+
+export async function PATCH(request: Request) {
+	try {
+		const { username, name, password } = await request.json();
+
+		// Handle password update
+		if (password) {
+			if (!username) {
+				return NextResponse.json(
+					{ error: "Username required for password update" },
+					{ status: 400 }
+				);
+			}
+			await cognito.send(
+				new AdminSetUserPasswordCommand({
+					UserPoolId: USER_POOL_ID,
+					Username: username,
+					Password: password,
+					Permanent: true,
+				})
+			);
+			return NextResponse.json({ success: true });
+		}
+
+		// Handle name update
+		if (name) {
+			if (!username || !name) {
+				return NextResponse.json(
+					{ error: "Username and name required" },
+					{ status: 400 }
+				);
+			}
+			await cognito.send(
+				new AdminUpdateUserAttributesCommand({
+					UserPoolId: USER_POOL_ID,
+					Username: username,
+					UserAttributes: [{ Name: "name", Value: name }],
+				})
+			);
+			return NextResponse.json({ success: true });
+		}
+
+		return NextResponse.json(
+			{ error: "Either name or password must be provided" },
+			{ status: 400 }
+		);
+	} catch (error) {
+		console.error("Error updating user:", error);
+		return NextResponse.json(
+			{ error: "Failed to update user" },
 			{ status: 500 }
 		);
 	}
