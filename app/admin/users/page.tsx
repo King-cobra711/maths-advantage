@@ -25,6 +25,7 @@ export default function UsersPage() {
 	const [editingPassword, setEditingPassword] = useState<string | null>(null);
 	const [newPassword, setNewPassword] = useState("");
 	const PROTECTED_EMAIL = "matthew@mathsadvantage.com.au";
+	const currentUserEmail = auth.user?.profile.email;
 
 	const isAdmin = () => {
 		const groups = auth.user?.profile["cognito:groups"] as string[] | undefined;
@@ -243,7 +244,7 @@ export default function UsersPage() {
 					<button
 						type="submit"
 						disabled={creating}
-						className="bg-teal-600 text-white px-4 py-2 rounded"
+						className="bg-teal-600 text-white px-4 py-2 rounded cursor-pointer"
 					>
 						Create User
 					</button>
@@ -276,103 +277,149 @@ export default function UsersPage() {
 								</tr>
 							</thead>
 							<tbody className="bg-white divide-y divide-gray-200">
-								{users.map((user) => (
-									<tr key={user.username}>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-											{user.username}
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-											{user.email}
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-											{editingUser === user.username ? (
-												<>
-													<input
-														type="text"
-														value={editName}
-														onChange={(e) => setEditName(e.target.value)}
-														className="p-1 border rounded"
-													/>
-													<button
-														onClick={() => handleEditName(user.username)}
-														className="ml-2 text-blue-600"
-													>
-														Save
-													</button>
-													<button
-														onClick={() => setEditingUser(null)}
-														className="ml-2 text-gray-600"
-													>
-														Cancel
-													</button>
-												</>
-											) : (
-												<>
-													{user.name || "-"}{" "}
-													<button
-														onClick={() => {
-															setEditingUser(user.username);
-															setEditName(user.name || "");
-														}}
-														className="ml-2 text-blue-600"
-													>
-														Edit
-													</button>
-												</>
-											)}
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-											{user.enabled ? "Enabled" : "Disabled"}
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-											{user.groups?.join(", ") || "No groups"}
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-											{editingPassword === user.username ? (
-												<>
-													<input
-														type="password"
-														value={newPassword}
-														onChange={(e) => setNewPassword(e.target.value)}
-														placeholder="New Password"
-														className="p-1 border rounded"
-													/>
-													<button
-														onClick={() => handleEditPassword(user.username)}
-														className="ml-2 text-blue-600"
-													>
-														Save
-													</button>
-													<button
-														onClick={() => {
-															setEditingPassword(null);
-															setNewPassword("");
-														}}
-														className="ml-2 text-gray-600"
-													>
-														Cancel
-													</button>
-												</>
-											) : (
-												<>
-													<button
-														onClick={() => setEditingPassword(user.username)}
-														className="text-blue-600 mr-2"
-													>
-														Change Password
-													</button>
-													<button
-														onClick={() => handleDeleteUser(user.username)}
-														className="text-red-600"
-														disabled={user.email === PROTECTED_EMAIL}
-													>
-														Delete
-													</button>
-												</>
-											)}
-										</td>
-									</tr>
-								))}
+								{users.map((user) => {
+									const isCurrentUser = user.email === currentUserEmail;
+									return (
+										<tr key={user.username}>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+												{user.username}
+											</td>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+												{user.email}
+											</td>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+												{editingUser === user.username ? (
+													<>
+														<input
+															type="text"
+															value={editName}
+															onChange={(e) => setEditName(e.target.value)}
+															className="p-1 border rounded"
+															disabled={isCurrentUser}
+														/>
+														{!isCurrentUser ? (
+															<>
+																<button
+																	onClick={() => handleEditName(user.username)}
+																	className="ml-2 text-blue-600"
+																>
+																	Save
+																</button>
+																<button
+																	onClick={() => setEditingUser(null)}
+																	className="ml-2 text-gray-600"
+																>
+																	Cancel
+																</button>
+															</>
+														) : (
+															<span className="ml-2 text-gray-400 cursor-not-allowed">
+																Edit (disabled)
+															</span>
+														)}
+													</>
+												) : (
+													<>
+														{user.name || "-"}{" "}
+														{!isCurrentUser ? (
+															<button
+																onClick={() => {
+																	setEditingUser(user.username);
+																	setEditName(user.name || "");
+																}}
+																className="ml-2 text-blue-600"
+															>
+																Edit
+															</button>
+														) : (
+															<span className="ml-2 text-gray-400 cursor-not-allowed">
+																Edit
+															</span>
+														)}
+													</>
+												)}
+											</td>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+												{user.enabled ? "Enabled" : "Disabled"}
+											</td>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+												{user.groups?.join(", ") || "No groups"}
+											</td>
+											<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+												{editingPassword === user.username ? (
+													<>
+														<input
+															type="password"
+															value={newPassword}
+															onChange={(e) => setNewPassword(e.target.value)}
+															placeholder="New Password"
+															className="p-1 border rounded"
+															disabled={isCurrentUser}
+														/>
+														{!isCurrentUser ? (
+															<>
+																<button
+																	onClick={() =>
+																		handleEditPassword(user.username)
+																	}
+																	className="ml-2 text-blue-600"
+																>
+																	Save
+																</button>
+																<button
+																	onClick={() => {
+																		setEditingPassword(null);
+																		setNewPassword("");
+																	}}
+																	className="ml-2 text-gray-600"
+																>
+																	Cancel
+																</button>
+															</>
+														) : (
+															<span className="ml-2 text-gray-400 cursor-not-allowed">
+																Change Password (disabled)
+															</span>
+														)}
+													</>
+												) : (
+													<>
+														{!isCurrentUser ? (
+															<>
+																<button
+																	onClick={() =>
+																		setEditingPassword(user.username)
+																	}
+																	className="text-blue-600 mr-2"
+																>
+																	Change Password
+																</button>
+																<button
+																	onClick={() =>
+																		handleDeleteUser(user.username)
+																	}
+																	className="text-red-600"
+																	disabled={user.email === PROTECTED_EMAIL}
+																>
+																	Delete
+																</button>
+															</>
+														) : (
+															<>
+																<span className="text-gray-400 cursor-not-allowed mr-2">
+																	Change Password
+																</span>
+																<span className="text-gray-400 cursor-not-allowed">
+																	Delete
+																</span>
+															</>
+														)}
+													</>
+												)}
+											</td>
+										</tr>
+									);
+								})}
 							</tbody>
 						</table>
 					</div>
