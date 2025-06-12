@@ -13,10 +13,10 @@ const cognito = new CognitoIdentityProviderClient({
 	region: "us-east-1",
 });
 //Production
-// const USER_POOL_ID = "us-east-1_Jn6Ruf7G7";
+// const USER_POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID_PROD;
 
 //Testing
-const USER_POOL_ID = "us-east-1_P2cFlkzh3";
+const USER_POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID_TEST;
 
 const PROTECTED_EMAIL = "matthew@mathsadvantage.com.au";
 
