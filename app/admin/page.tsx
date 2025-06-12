@@ -48,7 +48,7 @@ export default function AdminPage() {
 					{isAdmin() ? (
 						<div className="space-y-4">
 							<p className="text-lg text-center">
-								Welcome, {auth.user?.profile.email}
+								Welcome, {auth.user?.profile.name || auth.user?.profile.email}
 							</p>
 							<div className="grid gap-4 max-w-md mx-auto">
 								<button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition-colors">
