@@ -106,12 +106,11 @@ export async function POST(request: Request) {
 		);
 
 		return NextResponse.json({ success: true });
-	} catch (error) {
+	} catch (error: any) {
 		console.error("Error creating user:", error);
-		return NextResponse.json(
-			{ error: "Failed to create user" },
-			{ status: 500 }
-		);
+		const message =
+			error?.message || error?.toString() || "Failed to create user";
+		return NextResponse.json({ error: message }, { status: 400 });
 	}
 }
 
@@ -135,12 +134,11 @@ export async function DELETE(request: Request) {
 			})
 		);
 		return NextResponse.json({ success: true });
-	} catch (error) {
+	} catch (error: any) {
 		console.error("Error deleting user:", error);
-		return NextResponse.json(
-			{ error: "Failed to delete user" },
-			{ status: 500 }
-		);
+		const message =
+			error?.message || error?.toString() || "Failed to delete user";
+		return NextResponse.json({ error: message }, { status: 400 });
 	}
 }
 
@@ -189,11 +187,10 @@ export async function PATCH(request: Request) {
 			{ error: "Either name or password must be provided" },
 			{ status: 400 }
 		);
-	} catch (error) {
+	} catch (error: any) {
 		console.error("Error updating user:", error);
-		return NextResponse.json(
-			{ error: "Failed to update user" },
-			{ status: 500 }
-		);
+		const message =
+			error?.message || error?.toString() || "Failed to update user";
+		return NextResponse.json({ error: message }, { status: 400 });
 	}
 }
