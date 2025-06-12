@@ -83,10 +83,9 @@ export default function UsersPage() {
 					name: newUser.name,
 				}),
 			});
-			if (!res.ok) throw new Error("Failed to create user");
-			setNewUser({ email: "", password: "", name: "" });
-			// Refetch users
 			const data = await res.json();
+			if (!res.ok) throw new Error(data.error || "Failed to create user");
+			setNewUser({ email: "", password: "", name: "" });
 			window.location.reload();
 		} catch (err: any) {
 			alert(err.message);
@@ -105,7 +104,8 @@ export default function UsersPage() {
 				},
 				body: JSON.stringify({ username, name: editName }),
 			});
-			if (!res.ok) throw new Error("Failed to update name");
+			const data = await res.json();
+			if (!res.ok) throw new Error(data.error || "Failed to update name");
 			setEditingUser(null);
 			setEditName("");
 			window.location.reload();
@@ -124,7 +124,8 @@ export default function UsersPage() {
 				},
 				body: JSON.stringify({ username, password: newPassword }),
 			});
-			if (!res.ok) throw new Error("Failed to update password");
+			const data = await res.json();
+			if (!res.ok) throw new Error(data.error || "Failed to update password");
 			setEditingPassword(null);
 			setNewPassword("");
 			alert("Password updated successfully");
@@ -143,7 +144,8 @@ export default function UsersPage() {
 					headers: { Authorization: `Bearer ${auth.user?.access_token}` },
 				}
 			);
-			if (!res.ok) throw new Error("Failed to delete user");
+			const data = await res.json();
+			if (!res.ok) throw new Error(data.error || "Failed to delete user");
 			window.location.reload();
 		} catch (err: any) {
 			alert(err.message);
