@@ -301,13 +301,13 @@ export default function UsersPage() {
 															<>
 																<button
 																	onClick={() => handleEditName(user.username)}
-																	className="ml-2 text-blue-600"
+																	className="ml-2 text-blue-600 cursor-pointer"
 																>
 																	Save
 																</button>
 																<button
 																	onClick={() => setEditingUser(null)}
-																	className="ml-2 text-gray-600"
+																	className="ml-2 text-gray-600 cursor-pointer"
 																>
 																	Cancel
 																</button>
@@ -327,7 +327,7 @@ export default function UsersPage() {
 																	setEditingUser(user.username);
 																	setEditName(user.name || "");
 																}}
-																className="ml-2 text-blue-600"
+																className="ml-2 text-blue-600 cursor-pointer"
 															>
 																Edit
 															</button>
@@ -362,7 +362,7 @@ export default function UsersPage() {
 																	onClick={() =>
 																		handleEditPassword(user.username)
 																	}
-																	className="ml-2 text-blue-600"
+																	className="ml-2 text-blue-600 cursor-pointer"
 																>
 																	Save
 																</button>
@@ -371,7 +371,7 @@ export default function UsersPage() {
 																		setEditingPassword(null);
 																		setNewPassword("");
 																	}}
-																	className="ml-2 text-gray-600"
+																	className="ml-2 text-gray-600 cursor-pointer"
 																>
 																	Cancel
 																</button>
@@ -390,7 +390,7 @@ export default function UsersPage() {
 																	onClick={() =>
 																		setEditingPassword(user.username)
 																	}
-																	className="text-blue-600 mr-2"
+																	className="text-blue-600 mr-2 cursor-pointer"
 																>
 																	Change Password
 																</button>
@@ -398,7 +398,7 @@ export default function UsersPage() {
 																	onClick={() =>
 																		handleDeleteUser(user.username)
 																	}
-																	className="text-red-600"
+																	className="text-red-600 cursor-pointer"
 																	disabled={user.email === PROTECTED_EMAIL}
 																>
 																	Delete

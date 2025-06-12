@@ -26,7 +26,7 @@ export function LoginButton() {
 			<div className="flex flex-col items-center gap-4">
 				<button
 					onClick={handleLogout}
-					className="bg-red-500 text-white px-4 py-2 rounded"
+					className="bg-red-500 text-white px-4 py-2 rounded cursor-pointer"
 				>
 					Log out
 				</button>
@@ -37,7 +37,7 @@ export function LoginButton() {
 	return (
 		<button
 			onClick={() => void auth.signinRedirect()}
-			className="bg-teal-600 text-white px-4 py-2 rounded"
+			className="bg-teal-600 text-white px-4 py-2 rounded cursor-pointer"
 		>
 			Login
 		</button>
