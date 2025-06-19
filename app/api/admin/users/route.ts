@@ -101,7 +101,7 @@ export async function POST(request: Request) {
 			new AdminAddUserToGroupCommand({
 				UserPoolId: USER_POOL_ID,
 				Username: email,
-				GroupName: "test-users",
+				GroupName: "student",
 			})
 		);
 
