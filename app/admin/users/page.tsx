@@ -33,7 +33,6 @@ export default function UsersPage() {
 	const [editingPassword, setEditingPassword] = useState<string | null>(null);
 	const [newPassword, setNewPassword] = useState("");
 	const PROTECTED_EMAIL = "matthew@mathsadvantage.com.au";
-	const currentUserEmail = auth.user?.profile.email;
 
 	const isAdmin = () => {
 		const groups = auth.user?.profile["cognito:groups"] as string[] | undefined;
@@ -41,26 +40,24 @@ export default function UsersPage() {
 			(groups?.includes("Admin") || groups?.includes("test-admin")) ?? false
 		);
 	};
-
-	useEffect(() => {
-		const fetchAllUsers = async () => {
-			if (!isAdmin()) return;
-			try {
-				if (!auth.user?.access_token) {
-					alert(
-						"Authentication error: No access token found. Please log in again."
-					);
-					return;
-				}
-				const users = await fetchUsers(auth.user.access_token);
-				setUsers(users);
-			} catch (err: any) {
-				setError(err.message);
-			} finally {
-				setLoading(false);
+	const fetchAllUsers = async () => {
+		try {
+			if (!auth.user?.access_token) {
+				alert(
+					"Authentication error: No access token found. Please log in again."
+				);
+				return;
 			}
-		};
-		if (auth.isAuthenticated) {
+			const users = await fetchUsers(auth.user.access_token);
+			setUsers(users);
+		} catch (err: any) {
+			setError(err.message);
+		} finally {
+			setLoading(false);
+		}
+	};
+	useEffect(() => {
+		if (auth.isAuthenticated && isAdmin()) {
 			fetchAllUsers();
 		}
 	}, [auth.isAuthenticated, auth.user?.access_token]);
@@ -275,7 +272,9 @@ export default function UsersPage() {
 								</thead>
 								<tbody className="bg-white divide-y divide-gray-200">
 									{users.map((user) => {
-										const isCurrentUser = user.email === currentUserEmail;
+										const isProtectedAdmin =
+											user.groups?.includes("Admin") ||
+											user.groups?.includes("test-admin");
 										return (
 											<tr key={user.username}>
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -292,9 +291,9 @@ export default function UsersPage() {
 																value={editName}
 																onChange={(e) => setEditName(e.target.value)}
 																className="p-1 border rounded"
-																disabled={isCurrentUser}
+																disabled={isProtectedAdmin}
 															/>
-															{!isCurrentUser ? (
+															{!isProtectedAdmin ? (
 																<>
 																	<button
 																		onClick={() =>
@@ -320,7 +319,7 @@ export default function UsersPage() {
 													) : (
 														<>
 															{user.name || "-"}{" "}
-															{!isCurrentUser ? (
+															{!isProtectedAdmin ? (
 																<button
 																	onClick={() => {
 																		setEditingUser(user.username);
@@ -353,9 +352,9 @@ export default function UsersPage() {
 																onChange={(e) => setNewPassword(e.target.value)}
 																placeholder="New Password"
 																className="p-1 border rounded"
-																disabled={isCurrentUser}
+																disabled={isProtectedAdmin}
 															/>
-															{!isCurrentUser ? (
+															{!isProtectedAdmin ? (
 																<>
 																	<button
 																		onClick={() =>
@@ -383,7 +382,7 @@ export default function UsersPage() {
 														</>
 													) : (
 														<>
-															{!isCurrentUser ? (
+															{!isProtectedAdmin ? (
 																<>
 																	<button
 																		onClick={() =>
