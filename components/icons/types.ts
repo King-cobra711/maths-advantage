@@ -5,4 +5,5 @@ export interface IconProps {
 	height?: number;
 	viewBox?: string;
 	fill?: string;
+	color?: string;
 }

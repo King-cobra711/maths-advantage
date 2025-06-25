@@ -11,6 +11,8 @@ import {
 	deleteUser,
 } from "@/lib/userApi";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { PencilSquare } from "@/components/icons/PencilSquare";
+import { AdminActionsModal } from "@/components/AdminActionsModal";
 
 interface User {
 	username: string;
@@ -32,7 +34,8 @@ export default function UsersPage() {
 	const [editName, setEditName] = useState("");
 	const [editingPassword, setEditingPassword] = useState<string | null>(null);
 	const [newPassword, setNewPassword] = useState("");
-	const PROTECTED_EMAIL = "matthew@mathsadvantage.com.au";
+	const [selectedUser, setSelectedUser] = useState<User | null>(null);
+	const [showModal, setShowModal] = useState(false);
 
 	const isAdmin = () => {
 		const groups = auth.user?.profile["cognito:groups"] as string[] | undefined;
@@ -251,9 +254,6 @@ export default function UsersPage() {
 								<thead className="bg-gray-50">
 									<tr>
 										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-											Username
-										</th>
-										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 											Email
 										</th>
 										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -263,7 +263,7 @@ export default function UsersPage() {
 											Status
 										</th>
 										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-											Groups
+											Role
 										</th>
 										<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 											Actions
@@ -278,64 +278,10 @@ export default function UsersPage() {
 										return (
 											<tr key={user.username}>
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-													{user.username}
-												</td>
-												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
 													{user.email}
 												</td>
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-													{editingUser === user.username ? (
-														<>
-															<input
-																type="text"
-																value={editName}
-																onChange={(e) => setEditName(e.target.value)}
-																className="p-1 border rounded"
-																disabled={isProtectedAdmin}
-															/>
-															{!isProtectedAdmin ? (
-																<>
-																	<button
-																		onClick={() =>
-																			handleEditName(user.username)
-																		}
-																		className="ml-2 text-blue-600 cursor-pointer"
-																	>
-																		Save
-																	</button>
-																	<button
-																		onClick={() => setEditingUser(null)}
-																		className="ml-2 text-gray-600 cursor-pointer"
-																	>
-																		Cancel
-																	</button>
-																</>
-															) : (
-																<span className="ml-2 text-gray-400 cursor-not-allowed">
-																	Edit (disabled)
-																</span>
-															)}
-														</>
-													) : (
-														<>
-															{user.name || "-"}{" "}
-															{!isProtectedAdmin ? (
-																<button
-																	onClick={() => {
-																		setEditingUser(user.username);
-																		setEditName(user.name || "");
-																	}}
-																	className="ml-2 text-blue-600 cursor-pointer"
-																>
-																	Edit
-																</button>
-															) : (
-																<span className="ml-2 text-gray-400 cursor-not-allowed">
-																	Edit
-																</span>
-															)}
-														</>
-													)}
+													{user.name || "-"}
 												</td>
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
 													{user.enabled ? "Enabled" : "Disabled"}
@@ -344,76 +290,20 @@ export default function UsersPage() {
 													{user.groups?.join(", ") || "No groups"}
 												</td>
 												<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-													{editingPassword === user.username ? (
-														<>
-															<input
-																type="password"
-																value={newPassword}
-																onChange={(e) => setNewPassword(e.target.value)}
-																placeholder="New Password"
-																className="p-1 border rounded"
-																disabled={isProtectedAdmin}
-															/>
-															{!isProtectedAdmin ? (
-																<>
-																	<button
-																		onClick={() =>
-																			handleEditPassword(user.username)
-																		}
-																		className="ml-2 text-blue-600 cursor-pointer"
-																	>
-																		Save
-																	</button>
-																	<button
-																		onClick={() => {
-																			setEditingPassword(null);
-																			setNewPassword("");
-																		}}
-																		className="ml-2 text-gray-600 cursor-pointer"
-																	>
-																		Cancel
-																	</button>
-																</>
-															) : (
-																<span className="ml-2 text-gray-400 cursor-not-allowed">
-																	Change Password (disabled)
-																</span>
-															)}
-														</>
-													) : (
-														<>
-															{!isProtectedAdmin ? (
-																<>
-																	<button
-																		onClick={() =>
-																			setEditingPassword(user.username)
-																		}
-																		className="text-blue-600 mr-2 cursor-pointer"
-																	>
-																		Change Password
-																	</button>
-																	<button
-																		onClick={() =>
-																			handleDeleteUser(user.username)
-																		}
-																		className="text-red-600 cursor-pointer"
-																		disabled={user.email === PROTECTED_EMAIL}
-																	>
-																		Delete
-																	</button>
-																</>
-															) : (
-																<>
-																	<span className="text-gray-400 cursor-not-allowed mr-2">
-																		Change Password
-																	</span>
-																	<span className="text-gray-400 cursor-not-allowed">
-																		Delete
-																	</span>
-																</>
-															)}
-														</>
-													)}
+													<button
+														onClick={() => {
+															setSelectedUser(user);
+															setShowModal(true);
+														}}
+														className="text-blue-600 hover:text-blue-800"
+														aria-label="Edit user"
+														disabled={isProtectedAdmin}
+													>
+														<PencilSquare
+															size={20}
+															color={isProtectedAdmin ? "#cbd5e1" : "#0f766e"}
+														/>
+													</button>
 												</td>
 											</tr>
 										);
@@ -427,6 +317,27 @@ export default function UsersPage() {
 					</div>
 				</div>
 			</div>
+			{showModal && selectedUser && (
+				<AdminActionsModal
+					user={selectedUser}
+					onClose={() => {
+						setShowModal(false);
+						setSelectedUser(null);
+					}}
+					onEditName={handleEditName}
+					onEditPassword={handleEditPassword}
+					onDelete={handleDeleteUser}
+					editingUser={editingUser}
+					setEditingUser={setEditingUser}
+					editName={editName}
+					setEditName={setEditName}
+					editingPassword={editingPassword}
+					setEditingPassword={setEditingPassword}
+					newPassword={newPassword}
+					setNewPassword={setNewPassword}
+					creating={creating}
+				/>
+			)}
 		</ProtectedRoute>
 	);
 }
